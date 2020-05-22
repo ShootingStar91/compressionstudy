@@ -6,6 +6,8 @@ Then I wrote simple tests, there are technically only two integration tests that
 
 I also wrote a little javadoc comments.
 
+I used about 12 hours this week. Majority of it was trying to understand Huffman Coding and Canonical Huffman Coding.
+
 ### What next
 
 Next I will finish the Huffman Coder algorithm, make the Dao-class ready for reading files, and start writing LZ77 (Lempel-Ziv) algorithm.
