@@ -17,3 +17,11 @@ mvn test jacoco:report
 ```
 
 You will find it from /target/site/jacoco/
+
+Create checkstyle report:
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
+
+Find it at /target/site/checkstyle.html
+

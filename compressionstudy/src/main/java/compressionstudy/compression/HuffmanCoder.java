@@ -153,7 +153,7 @@ public class HuffmanCoder {
             dict.put(e.getCharacter(), e.getCode());
         }
         
-        Collections.sort(codes,(Entry e1, Entry e2) -> {
+        Collections.sort(codes, (Entry e1, Entry e2) -> {
             return e1.getCode().length() - e2.getCode().length();
         });
 
@@ -250,7 +250,9 @@ public class HuffmanCoder {
             } else {
                 System.out.println("Fatal error, unrecognized sign in encoded data: " + c);
             }
-            if (node == null) break;
+            if (node == null) {
+                break;
+            }
             if (node.leaf()) {
                 decoded += node.getCharacter();
                 node = root;
