@@ -4,8 +4,8 @@ This week, I set up pom.xml, checkstyle.xml, studied compression algorithms in d
 
 Then I wrote simple tests, there are technically only two integration tests that test the entirety of the HuffmanCoder-class, but the coverage is very high when checking with Jacoco. 
 
-I also wrote a little javadoc comments. I did not focus very much on style yet because I got in a bit hurry.
+I also wrote a little javadoc comments.
 
 ### What next
 
-Next I will finish the Huffman Coder algorithm, and start writing LZ77 (Lempel-Ziv) algorithm. I should also look at the checkstyle report and clean up any mistakes.
+Next I will finish the Huffman Coder algorithm, make the Dao-class ready for reading files, and start writing LZ77 (Lempel-Ziv) algorithm.
