@@ -7,6 +7,7 @@ This project is a practice project by Arttu Kangas for a course at University of
 + [Requirement specification](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/requirementspecification.md)
 + [Week report 1](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport1.md)
 + [Week report 2](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport2.md)
++ [Week report 3](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport3.md)
 
 ### Command line
 
