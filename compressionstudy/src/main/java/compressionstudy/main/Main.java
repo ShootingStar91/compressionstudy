@@ -2,6 +2,7 @@
 package compressionstudy.main;
 
 import compressionstudy.compression.HuffmanCoder;
+import compressionstudy.util.List;
 
 /**
  *
@@ -15,7 +16,7 @@ public class Main {
                 "the compression algorithm by mr. huffman will survive compressing " +
                 " this longer message. Oh boy it just keeps going on and on and " + 
                 " on and on and on! What a loooooong message!");
-    }
+        }
     
     public static void runHuffman(String input) {
         HuffmanCoder huffman = new HuffmanCoder();

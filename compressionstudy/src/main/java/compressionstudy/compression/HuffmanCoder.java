@@ -100,7 +100,7 @@ public class HuffmanCoder {
     String signs;
     String decoded;
     Entry root;
-    char[] bitLengths;
+    ArrayList<String> bitLengths;
     ArrayList<Entry> codes;
     
     public HuffmanCoder() {
@@ -156,16 +156,41 @@ public class HuffmanCoder {
         Collections.sort(codes, (Entry e1, Entry e2) -> {
             return e1.getCode().length() - e2.getCode().length();
         });
+        
+        // Save the bitlengths and characters, so they can be used in decoding 
+        bitLengths = new ArrayList<>();
+        for (int i = 0; i < codes.size(); i++) {
+            String code = codes.get(i).getCode();
+            int bits = code.length();
+            if (i > 0) {
+                if (bits != codes.get(codes.size() - 1).getCode().length()) {
+                    bitLengths.add(createBitString(bits));
+                }
+            } else {
+                bitLengths.add(createBitString(bits));
+            }
+        }
 
 
         // actual encoding:
-        
         for (int i = 0; i < input.length(); i++) {
             Character character = input.charAt(i);
             String code = dict.get(character);
             encoded += code;
         }
 
+    }
+    
+    private String createBitString(int bits) {
+        String bitString = "";
+        for (int i = 0; i < codes.get(codes.size() - 1).getCode().length(); i++) {
+            if (i < bits) {
+                bitString += "1";
+            } else {
+                bitString += "0";
+            }
+        }
+        return bitString;
     }
     
 
@@ -234,10 +259,31 @@ public class HuffmanCoder {
      * 
      */
     public void decode() {
-        // construct tree from the signs-string and bitLengths-list
         
-        // use the tree to simply decode the data, for now I use
-        // the already constructed tree
+        /* Not ready, commented out temporarily:
+        // construct dictionary from the signs-string and bitLengths-list
+        int index = 0;
+        decoded = "";
+        int longestCode = bitLengths.get(0).length();
+        
+        ArrayList<Entry> dict = new ArrayList<>();
+        int currentLength = 0;
+        while (true) {
+            String input;
+            if (index + longestCode >= encoded.length()) {
+                input = encoded.substring(index);
+                for (int i = 0; i < longestCode - input.length(); i++) {
+                    input += "0";
+                }
+            } else {
+                input = encoded.substring(index, index + longestCode);
+            }
+            // handle input
+        }
+        */
+        
+        // Decoding using the already-built tree, this will be removed once the
+        // dictionary building code is ready
         Entry node = root;
         decoded = "";
         for (int i = 0; i < encoded.length(); i++) {
@@ -261,6 +307,7 @@ public class HuffmanCoder {
         }
     }
     
+      
     /**
      * 
      * @return The decoded data, only call this if decode has been called prior.
