@@ -6,7 +6,7 @@ This week I did studying about the following subjects:
 + How the LZW-algorithm works
 + How to implement my own ArrayList-class
 
-I implement a functional ArrayList equivalent class, however, there is some issues with it. When compiled, it throws a warning. Also, it allows different types of objects be put in the same list. I don't know if that is a big fault. Due to these reasons I did not yet use it in the Huffman class at all. I did write some tests for the List-class.
+I implement a functional ArrayList equivalent class, however, there is some issues with it. When compiled, it throws a warning about unsafe operation. Also, it allows different types of objects be put in the same list. I don't know if that is a big fault. Due to these reasons I did not yet use it in the Huffman class at all. I did write some tests for the List-class.
 
 I also started writing the dictionary building for the Canonical decoding method, but I did not finish it, so it is temporarily commented out of the code.
 
