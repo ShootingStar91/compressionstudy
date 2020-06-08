@@ -13,7 +13,7 @@ This project is a practice project by Arttu Kangas for a course at University of
 
 ### How to use it
 
-At this moment, running the program will read the test2.txt -file from the folder where the src-folder is located. It will compress the file into "compressedFile". Then it will decompress that into "decompressed.txt". These filenames can only be changed from the main-method currently. The program will also print how many percents the compressed file is from the original.
+At this moment, running the program will read the "alice29.txt" -file from the folder where the src-folder is located. It will compress the file into "compressedAlice". Then it will decompress that into "decodedAlice.txt". These filenames can only be changed by changing the code in the main-method currently. The program will also print how many percents the compressed file is from the original.
 
 ### Command line
 

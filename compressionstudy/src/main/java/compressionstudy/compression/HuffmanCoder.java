@@ -153,6 +153,7 @@ public class HuffmanCoder {
             }
             byteList.add(cbyte);
         }
+        System.out.println("uniques when encoding " + byteList.size());
         // create dict
         HashMap<String, String> dict = new HashMap<>();
         for (Entry e : codes) {
@@ -186,9 +187,9 @@ public class HuffmanCoder {
         // add table about the codes in the beginning of the file
         BitStream stream = new BitStream();
         // add size of file to first (2 bytes)
-        stream.writeNumber(input.length, 2);
+        stream.writeNumber(input.length, 4);
         // add how many unique bytes there are (one byte)
-        stream.writeNumber(codes.size(), 1);
+        stream.writeNumber(codes.size(), 2);
         // add all unique bytes
         List<String> addedBytes = new ArrayList<>();
         
@@ -208,7 +209,7 @@ public class HuffmanCoder {
             }
         }
         // longest code:
-        stream.writeNumber(lengthAmounts.length - 1, 2);
+        stream.writeNumber(lengthAmounts.length - 1, 4);
 
         // add data about codes
         for (int i = 2; i < lengthAmounts.length; i++) {
@@ -330,8 +331,8 @@ public class HuffmanCoder {
         BitStream stream = new BitStream();
         stream.setBytes(encoded);
 
-        int fileSize = stream.readNumber(2);
-        int uniqueAmount = stream.readNumber(1);
+        int fileSize = stream.readNumber(4);
+        int uniqueAmount = stream.readNumber(2);
 
         List<CByte> uniqueBytes = new ArrayList<>();
         for (int i = 0; i < uniqueAmount; i++) {
@@ -339,11 +340,11 @@ public class HuffmanCoder {
         }
 
         int shortestCode = stream.readNumber(1);
-        int longestCode = stream.readNumber(2);
+        int longestCode = stream.readNumber(4);
         codes = new ArrayList<>();
         int codeLength = 1;
         int uniqueIndex = 0;
-
+        System.out.println("uniques " + uniqueBytes.size());
         while (codes.size() < uniqueAmount) {
             codeLength++;
             // how many of this length codes are there

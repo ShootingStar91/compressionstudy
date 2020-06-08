@@ -3,7 +3,6 @@ package compressionstudy.main;
 
 import compressionstudy.compression.HuffmanCoder;
 import compressionstudy.dao.Dao;
-import compressionstudy.util.BitStream;
 
 /**
  *
@@ -12,12 +11,14 @@ import compressionstudy.util.BitStream;
 public class Main {
     
     public static void main(String [] args) {
-      
-          runHuffman("test2.txt");
-          decompress("compressedFile", "decompressed.txt");
+          String originalFileName = "alice29.txt";
+          String newFileName = "aliceDecoded.txt";
+          String compressedFileName = "compressedAlice";
+          runHuffman(originalFileName, compressedFileName);
+          decompress(compressedFileName, newFileName);
     }
     
-    public static void runHuffman(String fileName) {
+    public static void runHuffman(String fileName, String compressedFileName) {
         System.out.println("Compressing " + fileName + "...");
         Dao dao = new Dao(fileName);
         int sizeBefore = dao.getContent().length;
@@ -30,7 +31,7 @@ public class Main {
         System.out.println("File size after compression: " + sizeAfter);
         System.out.println("Compression percentage: " + percentString + " %");
         System.out.println("");
-        dao.write("compressedFile", encodedFile);
+        dao.write(compressedFileName, encodedFile);
         
     }
     
