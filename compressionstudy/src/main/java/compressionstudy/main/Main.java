@@ -22,7 +22,6 @@ public class Main {
         Dao dao = new Dao(fileName);
         int sizeBefore = dao.getContent().length;
         HuffmanCoder hc = new HuffmanCoder();
-        byte[] rawArr = "helloworld".getBytes();
         byte[] encodedFile = hc.encode(dao.getContent());
         int sizeAfter = encodedFile.length;
         double compressionRate = sizeAfter * 1.00 / sizeBefore * 100;

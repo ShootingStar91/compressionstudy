@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * This class provides Huffman Encoding, through encode(input) and
- * decode() methods. Get unpacked data then by get()
+ * decode(compressed file) methods.
  * @author Arttu Kangas
  */
 public class HuffmanCoder {
@@ -140,11 +140,7 @@ public class HuffmanCoder {
         }
         
         sort(table);
-        
-        
-        
         root = createTree(table);
-
         codes = new ArrayList<>();
         
         createCodes(root, "");
@@ -156,9 +152,7 @@ public class HuffmanCoder {
                 continue;
             }
             byteList.add(cbyte);
-            System.out.println(cbyte.toString());
         }
-        System.out.println("codes amount " + codes.size() + " bytes amount " + byteList.size());        
         // create dict
         HashMap<String, String> dict = new HashMap<>();
         for (Entry e : codes) {
@@ -227,27 +221,16 @@ public class HuffmanCoder {
                 }
             }
         }
-        System.out.println("pointer before encoding " + stream.getPointer());
         // actual encoding:
-        System.out.println("");
         for (int i = 0; i < input.length; i++) {
             CByte cbyte = new CByte();
             cbyte.setValue(input[i].getValue());
             String code = dict.get(cbyte.toString());
             stream.writeBits(code);
-            System.out.println(code + " " + cbyte.toString() + "  " + cbyte.getValue());
         }
-        System.out.println("");
-        System.out.println("after " + stream.getPointer());
         return stream.getByteArray();
     }
-    /*
-    private void sort(List<CByte> byteList) {
-        Collections.sort(byteList, (CByte c1, CByte c2) -> {  
-            int difference = c1.getValue - c2.getValue();
-        });
-    }
-    **/
+
     private CByte[] process(byte[] rawinput) {
         CByte[] result = new CByte[rawinput.length];
         for (int i = 0; i < rawinput.length; i++) {
@@ -354,9 +337,7 @@ public class HuffmanCoder {
         for (int i = 0; i < uniqueAmount; i++) {
             uniqueBytes.add(stream.readCByte());
         }
-        for (CByte b : uniqueBytes) {
-            System.out.println(b.toString());
-        }
+
         int shortestCode = stream.readNumber(1);
         int longestCode = stream.readNumber(2);
         codes = new ArrayList<>();
@@ -413,12 +394,10 @@ public class HuffmanCoder {
         }
         List<CByte> decodedBytes = new ArrayList<>();
         
-        //printTree(root);
         // use tree to decode
         node = root;
         while (stream.hasBit()) {
             int bit = stream.readBit();
-            System.out.print(bit);
             if (bit == -1) {
                 break;
             }
@@ -434,41 +413,17 @@ public class HuffmanCoder {
             if (node.leaf()) {
                 CByte cByte = node.getCByte();
                 decodedBytes.add(cByte);
-                System.out.println(" " + cByte.toString() + "   " + cByte.getValue());
-
                 if (decodedBytes.size() >= fileSize) {
                     break;
                 }
                 node = root;
             }
         }
-        System.out.println("");
-        for (CByte c : decodedBytes) {
-            System.out.println(c.getValue());
-        }
         BitStream decodedStream = new BitStream();
         decodedStream.setBytes(decodedBytes);
         return decodedStream.getByteArray();
     }
     
-    public void printTree(Entry e) {
-        if (e.getRightChild() == null ){
-            
-        } else {
-            System.out.println("going right");
-            printTree(e.getRightChild());
-        }
-        if (e.getLeftChild() == null) {
-            
-        } else {
-            System.out.println("going left");
-            printTree(e.getLeftChild());
-        }
-        if (e.leaf()) {
-            System.out.println("leaf: " + e.getCByte().toString());
-            System.out.println("back to root");
-        }
-    }
 
     public String incrementBinary(String binary) {
         int zeroes = 0;
@@ -489,41 +444,7 @@ public class HuffmanCoder {
         return zeroesString + binary;
     }
 
-        
-        //buildTable();
-        
-        //for (int i = 0; i < signAmounts.length; i++) System.out.println("signamount index" + i + " = " + signAmounts[i]);
-        
-
-        /*
-        // Decoding using the already-built tree, this will be removed once the
-        // dictionary building code is ready
-        Entry node = root;
-        decoded = "";
-        for (int i = 0; i < encoded.length(); i++) {
-
-            CByte c = encoded.charAt(i);
-            if (c == '0') {
-                node = node.getLeftChild();
-            } else if (c == '1') {
-                node = node.getRightChild();
-            } else {
-                System.out.println("Fatal error, unrecognized sign in encoded data: " + c);
-            }
-            if (node == null) {
-                break;
-            }
-            if (node.leaf()) {
-                decoded += node.getCByte();
-                node = root;
-            }
             
-        }*/
-    
-    
-    /*
-    
-    */
     public void buildTable() {
         codes = new ArrayList<>();
         for (int i = 0; i < signs.length(); i++) {
@@ -539,38 +460,6 @@ public class HuffmanCoder {
         }
         
     }
-    
-    /*
-    this might be redundant since i already have createTree
-    public void buildTree() {
-        root = new Entry();
-        
-        for (Entry code : codes) {
-            String codeString = code.getCode();
-            Entry node = root;
-            for (int i = 0; i < codeString.length(); i++) {
-                char bit = codeString.charAt(i);
-                if (bit == '0') {
-                    if (node.getLeftChild() == null) {
-                        node.setLeftChild(new Entry());
-                    } else {
-                        node = node.getLeftChild();
-                    }
-                } else if (bit == '1') {
-                    if (node.getRightChild() == null) {
-                        node.setRightChild(new Entry());
-                    } else {
-                        node = node.getRightChild();
-                    }
-                }
-                if (i == codeString.length() - 1) {
-                    
-                }
-            }
-        }
-        
-    }
-    */
       
     /**
      * 

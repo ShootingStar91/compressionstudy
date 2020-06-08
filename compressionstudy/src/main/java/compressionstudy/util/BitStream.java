@@ -37,7 +37,6 @@ public class BitStream {
     
     public void setBytes(List<CByte> newStream) {
         stream = newStream;
-        System.out.println("stream size " + stream.size());
     }
     
     // return bit at current pointer
