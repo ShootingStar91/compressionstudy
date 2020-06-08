@@ -10,6 +10,10 @@ This project is a practice project by Arttu Kangas for a course at University of
 + [Week report 3](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport3.md)
 + [Week report 4](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport4.md)
 
+### How to use it
+
+At this moment, running the program will read the test2.txt -file from the folder where the src-folder is located. It will compress the file into "compressedFile". Then it will decompress that into "decompressed.txt". These filenames can only be changed from the main-method currently. The program will also print how many percents the compressed file is from the original.
+
 ### Command line
 
 Run tests and create jacoco report (make sure you are in the /compressionstudy folder):
