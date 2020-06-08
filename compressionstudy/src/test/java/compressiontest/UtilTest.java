@@ -1,6 +1,6 @@
 package compressiontest;
 
-import compressionstudy.util.List;
+import compressionstudy.util.CList;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -39,7 +39,7 @@ public class UtilTest {
 
     @Test
     public void testListAddGetSize() {
-        List<Integer> list = new List<>();
+        CList<Integer> list = new CList<>();
         int sum  = 0;
         for (int i = 0; i < 2000; i++) {
             list.add(i);
@@ -54,7 +54,7 @@ public class UtilTest {
     
     @Test
     public void testListRemove() {
-        List<Integer> list = new List<>();
+        CList<Integer> list = new CList<>();
         list.add(2);
         list.add(3);
         list.add(100);

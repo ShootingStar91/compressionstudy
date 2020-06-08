@@ -2,6 +2,7 @@
 package compressionstudy.dao;
 
 
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,6 +26,14 @@ public class Dao {
     
     public byte[] getContent() {
         return fileBytes;
+    }
+    
+    public void write(String fileName, byte[] fileContent) {
+        try (FileOutputStream fileStream = new FileOutputStream(fileName)) {
+            fileStream.write(fileContent);
+        } catch (Exception e) {
+            System.out.println(e);    
+        }
     }
     
 }

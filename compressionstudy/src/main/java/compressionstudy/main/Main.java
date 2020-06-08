@@ -2,7 +2,8 @@
 package compressionstudy.main;
 
 import compressionstudy.compression.HuffmanCoder;
-import compressionstudy.util.List;
+import compressionstudy.dao.Dao;
+import compressionstudy.util.BitStream;
 
 /**
  *
@@ -11,19 +12,35 @@ import compressionstudy.util.List;
 public class Main {
     
     public static void main(String [] args) {
-        runHuffman("First message, very short, nothing special.");
-        runHuffman("Longer message. This message is very long. Let's see how " +
-                "the compression algorithm by mr. huffman will survive compressing " +
-                " this longer message. Oh boy it just keeps going on and on and " + 
-                " on and on and on! What a loooooong message!");
-        }
+      
+          runHuffman("test2.txt");
+          decompress("compressedFile", "decompressed.txt");
+    }
     
-    public static void runHuffman(String input) {
-        HuffmanCoder huffman = new HuffmanCoder();
-        huffman.encode(input);
-        huffman.decode();
-        System.out.println("DECODED: " + huffman.get());
+    public static void runHuffman(String fileName) {
+        System.out.println("Compressing " + fileName + "...");
+        Dao dao = new Dao(fileName);
+        int sizeBefore = dao.getContent().length;
+        HuffmanCoder hc = new HuffmanCoder();
+        byte[] rawArr = "helloworld".getBytes();
+        byte[] encodedFile = hc.encode(dao.getContent());
+        int sizeAfter = encodedFile.length;
+        double compressionRate = sizeAfter * 1.00 / sizeBefore * 100;
+        String percentString = Double.toString(compressionRate).substring(0, 5);
+        System.out.println("File size before compression: " + sizeBefore);
+        System.out.println("File size after compression: " + sizeAfter);
+        System.out.println("Compression percentage: " + percentString + " %");
+        System.out.println("");
+        dao.write("compressedFile", encodedFile);
         
+    }
+    
+    public static void decompress(String fileName, String newFileName) {
+        Dao dao = new Dao(fileName);
+        byte[] data = dao.getContent();
+        HuffmanCoder hc = new HuffmanCoder();
+        byte[] decodedFile = hc.decode(data);
+        dao.write(newFileName, decodedFile);
     }
     
 }

@@ -22,10 +22,9 @@ public final class CByte {
     
     public CByte(String value) {
         this();
-        for (int i=0; i<8; i++) {
+        for (int i = 0; i < 8; i++) {
             if (value.charAt(i) == '1') {
                 bits[i] = 1;
-                
             }
         }
     }
@@ -63,13 +62,12 @@ public final class CByte {
             if (valueString.charAt(i) == '1') {
                 newBit = 1;
             }
-            bits[7 - ((valueString.length()-1) - i)] = newBit;
+            bits[7 - ((valueString.length() - 1) - i)] = newBit;
         }
         usedBits = 8;
     }
 
     public int getValue() {
-
         return Integer.parseInt(toString(), 2);
     }
     

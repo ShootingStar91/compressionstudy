@@ -6,13 +6,13 @@ package compressionstudy.util;
  * @author Arttu Kangas
  * @param <Type>
  */
-public class List<Type> {
+public class CList<Type> {
     
     int size;
     int items;
     Type [] list;
     
-    public List() {
+    public CList() {
         items = 0;
         size = 10;
         list = (Type[]) new Object[size];

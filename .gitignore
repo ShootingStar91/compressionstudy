@@ -1,4 +1,8 @@
 /compressionstudy/target/
 /compressionstudy/nbproject/
 /compressionstudy/nbactions.xml
+/compressionstudy/nb-configuration.xml
+/compressionstudy/decompressed.txt
+/compressionstudy/test.txt
+/compressionstudy/compressedFile
 
