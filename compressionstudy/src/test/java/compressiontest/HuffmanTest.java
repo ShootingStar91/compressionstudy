@@ -1,6 +1,6 @@
 package compressiontest;
 
-import compressionstudy.compression.HuffmanCoder;
+import compressionstudy.compression.HuffmanCompressor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class HuffmanTest {
     
-    HuffmanCoder encoder;
+    HuffmanCompressor encoder;
     
     public HuffmanTest() {
         

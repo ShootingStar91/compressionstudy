@@ -1,0 +1,88 @@
+
+package compressionstudy.compression;
+
+import compressionstudy.util.CByte;
+
+/**
+ *
+ * @author Arttu Kangas
+ */
+public class Entry {
+    CByte character;
+    Integer frequency;
+    String code;
+    Entry leftChild;
+    Entry rightChild;
+
+    public Entry(CByte character, Integer frequency) {
+        this.character = character;
+        this.frequency = frequency;
+        this.code = "";
+    }
+
+    public Entry(CByte character, String code) {
+        this.code = code;
+    }
+
+    public Entry() {
+        this.code = "";
+    }
+
+    public Entry getLeftChild() {
+        return leftChild;
+    }
+
+    public boolean leaf() {
+        return leftChild == null && rightChild == null;
+    }
+
+    public void setLeftChild(Entry leftChild) {
+        this.leftChild = leftChild;
+    }
+
+    public Entry getRightChild() {
+        return rightChild;
+    }
+
+    public void setRightChild(Entry rightChild) {
+        this.rightChild = rightChild;
+    }
+
+
+
+    public int compareTo(Entry entry) {
+        return frequency - entry.frequency;
+    }
+
+    public CByte getCByte() {
+        return character;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setCByte(CByte newChar) {
+        this.character = newChar;
+    }
+
+    public Integer getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Integer frequency) {
+        this.frequency = frequency;
+    }
+
+    @Override
+    public String toString() {
+        if (frequency == null) {
+            return "(" + this.character + " " + code + ")";
+        }
+        return "(" + this.character + " " + this.frequency + " " + " " + code + ")";
+    }
+}
