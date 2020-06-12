@@ -4,6 +4,16 @@ I started early this week and got the Huffman algorithm to work with byte files.
 
 I created the classes CByte and BitStream which proved to be very useful for this.
 
-Last commit divided the HuffmanCoder into three parts: private Entry-class became its own public class, and encoding and decoding are now two separate classes: HuffmanCompressor, and HuffmanDecompressor. The huffman main methods are also divided into separate smaller methods which cleaned the code up nicely. JavaDocs are not done yet but I will do them before the end of this week.
+I divided the HuffmanCoder into three parts: private Entry-class became its own public class, and encoding and decoding are now two separate classes: HuffmanCompressor, and HuffmanDecompressor. The huffman main methods are also divided into separate smaller methods which cleaned the code up nicely. JavaDocs are not done yet but I will do them before the end of this week.
 
-This document will be updated during the week as I will make more commits.
+I then started writing Lempel-Ziv-Welch into LZW-class. I finished compression-method, but I am not sure if it works because I did not yet finish decompression. It does however make the file smaller so that is a good sign.
+
+I wrote tests for CByte and BitStream classes and Huffman classes - for Huffman I only have one integration test so far, I will have to think more about how to make the unit tests.
+
+I added javadoc comments to all classes which are in use currently.
+
+I have not yet made my own HashMap class. ArrayList replacement is ready, and there are some tests, but I did not yet test using it in the actual huffman algorithm. I will do that at the same time with HashMap next week.
+
+# What next
+
+Next week I will write a HashMap class and custom sorting method and replace ArrayList with my custom list class. I will also try to finish LZW decompression and write some more unit tests for individual methods.

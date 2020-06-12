@@ -10,58 +10,42 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * This class provides Huffman Encoding, through encode(input) and
- * decode(compressed file) methods.
+ * This class performs file compression using the Huffman Coding
  * @author Arttu Kangas
  */
 public class HuffmanCompressor {
-    
     /**
-     * Performs huffman coding on the input data. Saves it into class variable.
-     * Then call decode() to de-compress it, and then get() to get the
-     * unpacked data.
-     * @param rawInput Input data to be encoded
-     * @return encoded list
+     * Performs huffman coding on the input data, and returns it in byte[] form
+     * @param rawInput Input data to be encoded in byte[] form
+     * @return Compressed data in byte[] form
      */
     public byte[] encode(byte[] rawInput) {
         // Translate the input from byte-array to array of CBytes
         CByte[] input = process(rawInput);
-        
         // Create table
         List<Entry> table = createTable(input);
         Entry root = createTree(table);
-        ArrayList<Entry> codes = new ArrayList<>();
-        
         // Create the codes from the tree structure
+        ArrayList<Entry> codes = new ArrayList<>();
         createCodes(root, "", codes);
-        
         // Sort codes by their length
         sortCodeTable(codes);
-        
         // create dictionary of bytes and their codes
         HashMap<String, String> dict = createDictionary(codes);
-        
         int[] lengthAmounts = new int[codes.get(codes.size() - 1).getCode().length() + 1];
-
         // count how many codes are for each code length
         countLengthAmounts(codes, lengthAmounts);
-        
         BitStream stream = new BitStream();
-        
-        // add size of file to first (2 bytes)
+        // add size of file to first (4 bytes)
         stream.writeNumber(input.length, 4);
-        
-        // add how many unique bytes there are (one byte)
+        // add how many unique bytes there are (two bytes)
         stream.writeNumber(codes.size(), 2);
-        
         // add all unique bytes
         writeUniqueBytes(codes, stream, lengthAmounts);
-        
         // For each code length, write how many of them exists, and then all the codes of that length
         writeCodeData(codes, stream, lengthAmounts);
         // Actual encoding
         writeCodes(input, dict, stream);
-        
         return stream.getByteArray();
     }
     

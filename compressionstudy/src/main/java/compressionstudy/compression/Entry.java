@@ -4,7 +4,10 @@ package compressionstudy.compression;
 import compressionstudy.util.CByte;
 
 /**
- *
+ * Represents an entry in the Huffman Coding table and tree.
+ * Used in both compression and decompression.
+ * Contains code as string, CByte that represents the original byte, and
+ * the frequency. These might not be all used at all times.
  * @author Arttu Kangas
  */
 public class Entry {
@@ -32,6 +35,10 @@ public class Entry {
         return leftChild;
     }
 
+    /**
+     * Returns true if this node has no children-nodes (is leaf in a tree)
+     * @return True if this node is a leaf
+     */
     public boolean leaf() {
         return leftChild == null && rightChild == null;
     }
@@ -47,8 +54,6 @@ public class Entry {
     public void setRightChild(Entry rightChild) {
         this.rightChild = rightChild;
     }
-
-
 
     public int compareTo(Entry entry) {
         return frequency - entry.frequency;

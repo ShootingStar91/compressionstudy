@@ -1,5 +1,7 @@
 package compressiontest;
 
+import compressionstudy.util.BitStream;
+import compressionstudy.util.CByte;
 import compressionstudy.util.CList;
 
 import org.junit.jupiter.api.AfterEach;
@@ -62,7 +64,34 @@ public class UtilTest {
         assertTrue(list.size() == 2);
     }
     
+    @Test
+    public void testBitStreamWriteBits() {
+        String testBits = "00010100";
+        BitStream stream = new BitStream();
+        stream.writeBits(testBits);
+        stream.setPointer(0);
+        assertEquals(stream.readNumber(1), 20);
+    }
     
-
+    @Test
+    public void testBitStreamReadNumberFromBits() {
+        BitStream stream = new BitStream();
+        stream.writeNumber(20, 1);
+        stream.setPointer(0);
+        assertEquals(stream.readNumberFromBits(8), 20);
+    }
     
+    @Test
+    public void testCByteSetBit() {
+        CByte cbyte = new CByte();
+        cbyte.setBit(6, 1);
+        assertEquals(cbyte.getValue(), 2);
+    }
+    
+    @Test
+    public void testCByte() {
+        CByte cbyte = new CByte();
+        cbyte.setValue(20);
+        assertEquals(cbyte.toString(), "00010100");
+    }
 }

@@ -7,12 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * This class decompresses a byte[] array file that has been compressed with
+ * HuffmanCompressor.java class
  * @author Arttu Kangas
  */
 public class HuffmanDecompressor {
 
-    public byte[] decode(byte[] encoded) {
+    /**
+     * Decompresses a file compressed with HuffmanCompressor class
+     * @param encoded byte[] array containing compressed file
+     * @return Decompressed file in byte[] array
+     */
+    public byte[] decompress(byte[] encoded) {
         // translate encoded byte[]-array to CBytes with BitStream
         BitStream stream = new BitStream();
         stream.setBytes(encoded);
