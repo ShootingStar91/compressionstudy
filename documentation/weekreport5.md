@@ -14,6 +14,10 @@ I added javadoc comments to all classes which are in use currently.
 
 I have not yet made my own HashMap class. ArrayList replacement is ready, and there are some tests, but I did not yet test using it in the actual huffman algorithm. I will do that at the same time with HashMap next week.
 
+I also started writing implementation and testing documents.
+
+I used about 16 hours this week. Many of it went into studying and coding Lempel-Ziv-Welch.
+
 # What next
 
 Next week I will write a HashMap class and custom sorting method and replace ArrayList with my custom list class. I will also try to finish LZW decompression and write some more unit tests for individual methods.
