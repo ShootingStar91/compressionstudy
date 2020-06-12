@@ -88,9 +88,9 @@ public class HuffmanDecompressor {
     */
     private Entry processCode(String code, Entry node) {
         for (int i = 0; i < code.length(); i++) {
+            Entry newNode = new Entry();
             if (code.charAt(i) == '0') {
                 if (node.getLeftChild() == null) {
-                    Entry newNode = new Entry();
                     node.setLeftChild(newNode);
                     node = newNode;
                 } else {
@@ -98,7 +98,6 @@ public class HuffmanDecompressor {
                 }
             } else {
                 if (node.getRightChild() == null) {
-                    Entry newNode = new Entry();
                     node.setRightChild(newNode);
                     node = newNode;
                 } else {

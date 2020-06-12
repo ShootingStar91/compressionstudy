@@ -110,7 +110,7 @@ public class HuffmanCompressor {
     private CByte[] process(byte[] rawinput) {
         CByte[] result = new CByte[rawinput.length];
         for (int i = 0; i < rawinput.length; i++) {
-            short value = (short)rawinput[i];
+            short value = (short) rawinput[i];
             if (value < 0) {
                 value += 256;
             }

@@ -5,6 +5,8 @@ A Java implementation of different file compression algorithms, and a study of t
 This project is a practice project by Arttu Kangas for a course at University of Helsinki.
 
 + [Requirement specification](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/requirementspecification.md)
++ [Implementation document](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/implementation.md)
++ [Testing document](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/testing.md)
 + [Week report 1](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport1.md)
 + [Week report 2](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport2.md)
 + [Week report 3](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport3.md)

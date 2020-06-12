@@ -73,7 +73,9 @@ public class LZW {
             } else {
                 System.out.println("ERROR");
             }
-            if (entry.equals("")) continue;
+            if (entry.equals("")) {
+                continue;
+            }
             decompressed.writeNumber(Integer.parseInt(entry), 1);
             dict.put(w + entry, dictSize);
             dictSize++;

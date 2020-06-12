@@ -45,7 +45,7 @@ public final class CByte {
      * @param newBit New bit value
      */
     public void setBit(int index, int newBit) {
-        bits[index] = (short)newBit;
+        bits[index] = (short) newBit;
     }
     
     /**
@@ -58,7 +58,7 @@ public final class CByte {
         if (usedBits >= 8) {
             return false;
         }
-        bits[usedBits] = (short)newBit;
+        bits[usedBits] = (short) newBit;
         usedBits++;
         return true;
     }

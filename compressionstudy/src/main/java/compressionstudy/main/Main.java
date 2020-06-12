@@ -67,7 +67,7 @@ public class Main {
         System.out.println("Compressed: " + arr.length);
         System.out.println("Unpacking...");
         byte[] decomp = lzw.decompress(arr);
-        for (int i=0; i<file.length; i++) {
+        for (int i = 0; i < file.length; i++) {
             if (arr[i] != decomp[i]) {
                 System.out.println("ERROR AT " + i);
             }
