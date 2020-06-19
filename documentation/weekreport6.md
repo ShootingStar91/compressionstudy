@@ -4,6 +4,8 @@ This week I finished LZW algorithm (although apparently it isn't finished, more 
 
 I also wrote a custom HashMap. There isn't tests for it yet, but it seems to work just as well as Java's own, for my purposes. The size of the hashmap might need tweaking later.
 
+I used about 15 hours this week.
+
 ### Problems
 
 I found an error from my LZW algorithm, and it seems to not be related to my HashMap as I first saw, but I just hadn't tested the LZW properly before. When compressing and decompressing the alice29.txt file, two bytes in the book get messed up. I think I got an idea what might cause this, but I'm not sure yet. I will try to fix it very quickly.
