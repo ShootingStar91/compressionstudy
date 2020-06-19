@@ -6,7 +6,7 @@ I also wrote a custom HashMap. There isn't tests for it yet, but it seems to wor
 
 ### Problems
 
-I found an error from my LZW algorithm, and it seems to not be related to my HashMap as I first saw, but I just hadn't tested the LZW properly before. When compressing and decompressing the alice29.txt file, two bytes in the book get mixed up. I think I got an idea what might cause this, but I'm not sure yet. I will try to fix it already on Sunday.
+I found an error from my LZW algorithm, and it seems to not be related to my HashMap as I first saw, but I just hadn't tested the LZW properly before. When compressing and decompressing the alice29.txt file, two bytes in the book get messed up. I think I got an idea what might cause this, but I'm not sure yet. I will try to fix it already on Sunday.
 
 It is strange that the entire book was otherwise exactly the same but two adjacent bytes went slightly wrong. This only caused one character error in the text file, and the rest of the book was completely fine, but obviously a lossless algorithm can't have mistakes like that.
 
