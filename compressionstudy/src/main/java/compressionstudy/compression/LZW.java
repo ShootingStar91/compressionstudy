@@ -2,23 +2,23 @@
 package compressionstudy.compression;
 
 import compressionstudy.util.BitStream;
-import java.util.HashMap;
+import compressionstudy.util.HashMap;
 
 /**
  * Performs Lempel-Ziv-Welch compression  on a byte[] file
  * @author Arttu Kangas
  */
 public class LZW {
-
+    int dictLimit = 4096;
     public byte[] compress(byte[] rawInput) {
         int bitLength = 12;
-        int dictLimit = 4096;
         BitStream stream = new BitStream();
         stream.setBytes(rawInput);
         int dictSize = 256;
         // Initialize dictionary
         HashMap<String, Integer> dict = createDictionary();
         BitStream compressed = new BitStream();
+        compressed.writeNumber(rawInput.length, 4);
         String w = "";
         for (int z = 0; z < rawInput.length; z++) {
             String c = "" + Integer.toString(stream.readNumberFromBits(8));
@@ -36,7 +36,7 @@ public class LZW {
                 w = c;
             }
         }
-        compressed.writeBit(dict.get(w));
+        compressed.writeNumberToBits(dict.get(w), bitLength);
         return compressed.getByteArray();
     }
     
@@ -44,6 +44,13 @@ public class LZW {
         HashMap<String, Integer> dict = new HashMap<>();
         for (int i = 0; i < 256; i++) {
             dict.put(Integer.toString(i), i);
+        }
+        return dict;
+    }
+        private HashMap<Integer, String> createDictionary2() {
+        HashMap<Integer, String> dict = new HashMap<>();
+        for (int i = 0; i < 256; i++) {
+            dict.put(i, Integer.toString(i));
         }
         return dict;
     }
@@ -59,30 +66,55 @@ public class LZW {
         int dictSize = 256;
         BitStream stream = new BitStream();
         stream.setBytes(rawInput);
-        
-        HashMap<String, Integer> dict = createDictionary();
+        int fileSize = stream.readNumber(4);
+        HashMap<Integer, String> dict = createDictionary2();
         BitStream decompressed = new BitStream();
+        
         String w = Integer.toString(stream.readNumberFromBits(bitLength));
+        decompressed.writeNumber(Integer.parseInt(w), 1);
         for (int z = 0; z < rawInput.length; z++) {
-            String a = Integer.toString(stream.readNumberFromBits(12));
+            int a = stream.readNumberFromBits(bitLength);
             String entry = "";
             if (dict.containsKey(a)) {
-                entry = Integer.toString(dict.get(a));
-            } else if (a.equals(Integer.toString(dict.size()))) {
-                entry = w;
+             //   System.out.println("contained a ");
+                entry = dict.get(a);
+            } else if (a == dictSize) {
+             //   System.out.println("didnt contain");
+                entry = w + "_" + pickFirst(w);
             } else {
                 System.out.println("ERROR");
             }
             if (entry.equals("")) {
                 continue;
             }
-            decompressed.writeNumber(Integer.parseInt(entry), 1);
-            dict.put(w + entry, dictSize);
+            writeNumbers(decompressed, entry);
+            if (decompressed.getPointer() >= fileSize * 8 - 1) {
+                break;
+            }
+            
+            dict.put(dictSize, "" + w + "_" + pickFirst(entry));
             dictSize++;
+            if (dictSize >= dictLimit - 1) {
+                dictSize = 256;
+                dict = createDictionary2();
+            }
             w = entry;
         }
         
         return decompressed.getByteArray();
+        
+    }
+    
+    public String pickFirst(String string) {
+        String[] numbers = string.split("_");
+        return numbers[0];
+    }
+    
+    public void writeNumbers(BitStream decompressed, String entry) {
+        String[] numbers = entry.split("_");
+        for (String number : numbers) {
+            decompressed.writeNumber(Integer.parseInt(number), 1);
+        }
         
     }
     

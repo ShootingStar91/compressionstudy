@@ -14,7 +14,7 @@ public class CList<Type> {
     
     public CList() {
         items = 0;
-        size = 10;
+        size = 20000;
         list = (Type[]) new Object[size];
     }
     
@@ -35,14 +35,7 @@ public class CList<Type> {
     }
     
     private void extend() {
-        int growth;
-        if (size < 100) {
-            growth = 10;
-        } else if (size < 1000) {
-            growth = 100;
-        } else {
-            growth = 1000;
-        }
+        int growth = 10000;
         size += growth;
         renew();
     }
@@ -64,12 +57,25 @@ public class CList<Type> {
         renew();
     }
     
+    /**
+     * Replaces the object at index to a new object
+     * @param index Index where you want to put new object to
+     * @param object New object
+     */
+    public void replace(int index, Type object) {
+        list[index] = object;
+    }
+    
     public void remove(int index) {
         if (index >= items || index < 0) {
             System.out.println("List class: Remove error: Index out of bounds");
         }
         list[index] = null;
         items--;
+        for (int i = index; i < items; i++) {
+            list[i] = list[i + 1];
+        }
+        
         if (size - items > 1000) {
             cut();
         }

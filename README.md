@@ -12,6 +12,7 @@ This project is a practice project by Arttu Kangas for a course at University of
 + [Week report 3](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport3.md)
 + [Week report 4](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport4.md)
 + [Week report 5](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport5.md)
++ [Week report 6](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport6.md)
 
 ### How to use it
 

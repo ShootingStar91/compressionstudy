@@ -4,10 +4,8 @@ package compressionstudy.compression;
 
 import compressionstudy.util.BitStream;
 import compressionstudy.util.CByte;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import compressionstudy.util.CList;
+import compressionstudy.util.HashMap;
 
 /**
  * This class performs file compression using the Huffman Coding
@@ -23,10 +21,10 @@ public class HuffmanCompressor {
         // Translate the input from byte-array to array of CBytes
         CByte[] input = process(rawInput);
         // Create table
-        List<Entry> table = createTable(input);
+        CList<Entry> table = createTable(input);
         Entry root = createTree(table);
         // Create the codes from the tree structure
-        ArrayList<Entry> codes = new ArrayList<>();
+        CList<Entry> codes = new CList<>();
         createCodes(root, "", codes);
         // Sort codes by their length
         sortCodeTable(codes);
@@ -49,23 +47,25 @@ public class HuffmanCompressor {
         return stream.getByteArray();
     }
     
-    private HashMap<String, String> createDictionary(ArrayList<Entry> codes) {
+    private HashMap<String, String> createDictionary(CList<Entry> codes) {
         HashMap<String, String> dict = new HashMap<>();
-        for (Entry entry : codes) {
+        for (int i = 0; i < codes.size(); i++) {
+            Entry entry = codes.get(i);
             dict.put(entry.getCByte().toString(), entry.getCode());
         }
         return dict;
     }
     
-    private void sortCodeTable(ArrayList<Entry> codes) {
+    private void sortCodeTable(CList<Entry> codes) {
         // Sort codes-table by their code length and get the longest code length
-        Collections.sort(codes, (Entry e1, Entry e2) -> {
+        /**Collections.sort(codes, (Entry e1, Entry e2) -> {
             return e1.getCode().length() - e2.getCode().length();
-        });
+        });**/
+        sortList(codes, true);
         
     }
     
-    private void countLengthAmounts(ArrayList<Entry> codes, int[] lengthAmounts) {
+    private void countLengthAmounts(CList<Entry> codes, int[] lengthAmounts) {
         for (int i = 0; i < codes.size(); i++) {
             String code = codes.get(i).getCode();
             int bits = code.length();
@@ -73,7 +73,7 @@ public class HuffmanCompressor {
         }
     }
     
-    private void writeUniqueBytes(ArrayList<Entry> codes, BitStream stream, int[] lengthAmounts) {
+    private void writeUniqueBytes(CList<Entry> codes, BitStream stream, int[] lengthAmounts) {
         for (int i = 0; i < lengthAmounts.length; i++) {
             for (int j = 0; j < codes.size(); j++) {
                 if (codes.get(j).getCode().length() == i) {
@@ -83,7 +83,7 @@ public class HuffmanCompressor {
         }
     }
     
-    private void writeCodeData(ArrayList<Entry> codes, BitStream stream, int[] lengthAmounts) {
+    private void writeCodeData(CList<Entry> codes, BitStream stream, int[] lengthAmounts) {
         // add data about codes
         for (int i = 2; i < lengthAmounts.length; i++) {
             // how many of this code length exists
@@ -124,7 +124,7 @@ public class HuffmanCompressor {
     Goes through all bytes in the file, counting how often they appear, and
     returns a list of them which is sorted by the frequencies
     */
-    private List<Entry> createTable(CByte[] input) {
+    private CList<Entry> createTable(CByte[] input) {
         HashMap<String, Integer> frequencies = new HashMap<>();
         for (CByte newByte : input) {
             if (frequencies.containsKey(newByte.toString())) {
@@ -133,15 +133,16 @@ public class HuffmanCompressor {
                 frequencies.put(newByte.toString(), 1);
             }
         }
-        List<Entry> table = new ArrayList<>();
-        for (String string : frequencies.keySet()) {
+        CList<Entry> table = new CList<>();
+        for (int i = 0; i < frequencies.keySet().size(); i++) {
+            String string = frequencies.keySet().get(i);
             table.add(new Entry(new CByte(string), frequencies.get(string)));
         }
-        sort(table);
+        sortList(table, false);
         return table;
     }
 
-    private void createCodes(Entry node, String code, ArrayList<Entry> codes) {
+    private void createCodes(Entry node, String code, CList<Entry> codes) {
         if (node.getLeftChild() != null) {
             createCodes(node.getLeftChild(), code + "0", codes);
         }
@@ -153,12 +154,12 @@ public class HuffmanCompressor {
         }
     }
     
-    private void saveCode(Entry node, String code, ArrayList<Entry> codes) {
+    private void saveCode(Entry node, String code, CList<Entry> codes) {
         node.setCode(code);
         codes.add(node);
     }
     
-    private Entry createTree(List<Entry> table) {
+    private Entry createTree(CList<Entry> table) {
         while (table.size() > 1) {
             Entry e1 = table.get(0);
             Entry e2 = table.get(1);
@@ -174,25 +175,86 @@ public class HuffmanCompressor {
             if (table.size() == 1) {
                 break;
             }
-            sort(table);
+            sortList(table, false);
         }
         return table.get(0);
     }
-
-    private void sort(List<Entry> table) {
-        Collections.sort(table, (Entry e1, Entry e2) -> {
-            int difference = e1.compareTo(e2);
-            if (difference != 0) {
-                return difference;
-            } else {
-                if (e1.getCByte() == null || e2.getCByte() == null) {
-                    return 0;
-                }
-                difference = e1.getCByte().getValue() - e2.getCByte().getValue();
-                return difference;
+    
+    public void testSorting() {
+        Entry e1 = new Entry();
+        e1.setCByte(new CByte("00100001"));
+        e1.setFrequency(10);     
+        
+        Entry e2 = new Entry();
+        e2.setCByte(new CByte("00000010"));
+        e2.setFrequency(300);        
+        
+        Entry e3 = new Entry();
+        e3.setCByte(new CByte("00000100"));
+        e3.setFrequency(10);     
+        
+        Entry e4 = new Entry();
+        e4.setCByte(new CByte("00000011"));
+        e4.setFrequency(100);
+        
+        CList<Entry> list = new CList<>();
+        list.add(e1);
+        list.add(e2);
+        list.add(e3);
+        list.add(e4);
+        sortList(list, false);
+        for (int i = 0; i< 4; i++) {
+            Entry e = list.get(i);
+            System.out.println(e.getFrequency() + "   ,   " + e.getCByte().getValue());
+        }
+    }
+    
+    private void sortList(CList<Entry> list, boolean codeLength) {
+        quickSort(list, 0, list.size()-1, codeLength);
+    }
+    
+    private int part(CList<Entry> list, int low, int high, boolean codeLength) {
+        Entry pivot = list.get(high);
+        int index = low - 1;
+        for (int i = low; i < high; i++) {
+            if (compare(list.get(i), pivot, codeLength)) {
+                index++;
+                Entry temp = list.get(index);
+                list.replace(index, list.get(i));
+                list.replace(i, temp);
+                
             }
-        });
+        }
+        Entry temp = list.get(index + 1);
+        list.replace(index + 1, list.get(high));
+        list.replace(high, temp);
+        return index + 1;
+    }
+    
+    private boolean compare(Entry e1, Entry e2, boolean codeLength) {
+        if (codeLength) {
+            return e1.getCode().length() < e2.getCode().length();
+        }
+        if (e1 == null || e2 == null) return true;
+        if (e1.frequency != e2.frequency) {
+            return e1.frequency < e2.frequency;
+        } else {
+            if (e1.getCByte() == null || e2.getCByte() == null) {
+                return true;
+            }
+            return e1.getCByte().getValue() <= e2.getCByte().getValue();
+        }
+    }
+    
+    private void quickSort(CList<Entry> list, int low, int high, boolean codeLength) {
+        if (low < high) {
+            int index = part(list, low, high, codeLength);
+            quickSort(list, low, index - 1, codeLength);
+            quickSort(list, index + 1, high, codeLength);
+        }
     }
     
     
 }
+
+

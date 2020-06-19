@@ -5,6 +5,7 @@ import compressionstudy.compression.HuffmanCompressor;
 import compressionstudy.compression.HuffmanDecompressor;
 import compressionstudy.compression.LZW;
 import compressionstudy.dao.Dao;
+import compressionstudy.util.BitStream;
 import java.util.Arrays;
 
 /**
@@ -16,6 +17,58 @@ public class Main {
     public static void main(String [] args) {
         //fileTest();
         timeTest();
+        //LZWTest();
+        //LZWFileTest();
+    }
+    
+    public static void LZWFileTest() {
+        Dao dao = new Dao("alice29.txt");
+        byte[] original = dao.getContent();
+
+        LZW lzw = new LZW();
+        byte[] compressed = lzw.compress(original);
+        BitStream stream = new BitStream();
+        stream.setBytes(compressed);
+        stream.readNumber(4);
+        System.out.println("LZW compressed to: " + compressed.length + " from " + original.length);
+        byte[] result = lzw.decompress(compressed);
+        for (int i = 0; i < original.length; i++) {
+            if (result[i] != original[i]) {System.out.println("ERROR !!! AT " + i);
+                System.out.println("original: " + original[i] + " decompressed: " + result[i]);
+            }
+        }
+        dao.write("aliceResult.txt", result);
+    }
+    
+    public static void LZWTest() {
+        Dao dao = new Dao("alice29.txt");
+        byte[] original = dao.getContent();
+        System.out.println("original:");
+        for (int i = 0; i < original.length; i++) {
+            System.out.println(original[i]);
+        }
+        LZW lzw = new LZW();
+        byte[] compressed = lzw.compress(original);
+        BitStream stream = new BitStream();
+        stream.setBytes(compressed);
+        stream.readNumber(4);
+        while(true) {
+            int number = stream.readNumberFromBits(12);
+            if (number == 0) break;
+            System.out.println(number);
+        }
+        System.out.println("LZW compressed to: " + compressed.length);
+        byte[] result = lzw.decompress(compressed);
+        for (int i = 0; i < result.length; i++) {
+            System.out.println(result[i]);
+        }
+        dao.write("aliceDecompressedLZW.txt", result);
+        for (int i = 0; i < original.length; i++) {
+            if (original[i] != result[i]) {
+                System.out.println("error at " + i);
+            }
+        }
+        if (original.length != result.length) System.out.println("LENGTH ERROR !!!");
     }
     
     /**

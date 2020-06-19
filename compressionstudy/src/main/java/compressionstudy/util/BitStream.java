@@ -1,7 +1,6 @@
 
 package compressionstudy.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,12 +13,12 @@ import java.util.List;
  */
 public class BitStream {
     
-    List<CByte> stream;
+    CList<CByte> stream;
     int pointer;
     
     
     public BitStream() {
-        stream = new ArrayList<>();
+        stream = new CList<>();
         pointer = 0;
     }
     
@@ -51,7 +50,7 @@ public class BitStream {
      * Set the stream content from a CByte-list
      * @param newStream 
      */
-    public void setBytes(List<CByte> newStream) {
+    public void setBytes(CList<CByte> newStream) {
         stream = newStream;
     }
     
@@ -160,9 +159,14 @@ public class BitStream {
         String numString = "";
         for (int i = 0; i < bits; i++) {
             int bit = readBit();
+            if (bit == -1) break;
             numString += Integer.toString(bit);
         }
-        return Integer.parseInt(numString, 2);
+        if (numString.equals("")) {
+            return 0;
+        }
+        int number = Integer.parseInt(numString, 2);
+        return number;
     }
     
     /**

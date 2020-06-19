@@ -3,8 +3,7 @@ package compressionstudy.compression;
 
 import compressionstudy.util.BitStream;
 import compressionstudy.util.CByte;
-import java.util.ArrayList;
-import java.util.List;
+import compressionstudy.util.CList;
 
 /**
  * This class decompresses a byte[] array file that has been compressed with
@@ -26,12 +25,12 @@ public class HuffmanDecompressor {
         int fileSize = stream.readNumber(4);
         int uniqueAmount = stream.readNumber(2);
         // read unique bytes
-        List<CByte> uniqueBytes = readUniqueBytes(stream, uniqueAmount);
-        ArrayList<Entry> codes = new ArrayList<>();
+        CList<CByte> uniqueBytes = readUniqueBytes(stream, uniqueAmount);
+        CList<Entry> codes = new CList<>();
         readCodes(stream, codes, uniqueBytes, uniqueAmount);
         // create tree
         Entry root = createTree(codes);
-        List<CByte> decodedBytes = new ArrayList<>();
+        CList<CByte> decodedBytes = new CList<>();
         // use tree to decode
         decode(stream, root, decodedBytes, fileSize);
         // translate back to byte[]-form
@@ -40,7 +39,7 @@ public class HuffmanDecompressor {
         return decodedStream.getByteArray();
     }
     
-    private void decode(BitStream stream, Entry root, List<CByte> decodedBytes, int fileSize) {
+    private void decode(BitStream stream, Entry root, CList<CByte> decodedBytes, int fileSize) {
         Entry node = root;
         while (stream.hasBit()) {
             int bit = stream.readBit();
@@ -69,10 +68,11 @@ public class HuffmanDecompressor {
     /*
     Create tree out of the codes
     */
-    private Entry createTree(ArrayList<Entry> codes) {
+    private Entry createTree(CList<Entry> codes) {
         Entry root = new Entry();
         Entry node = root;
-        for (Entry entry : codes) {
+        for (int i = 0; i < codes.size(); i++) {
+            Entry entry = codes.get(i);
             String code = entry.getCode();
             node = processCode(code, node);
             node.setCode(code);
@@ -108,15 +108,15 @@ public class HuffmanDecompressor {
         return node;
     }
     
-    private ArrayList<CByte> readUniqueBytes(BitStream stream, int uniqueAmount) {
-        ArrayList<CByte> uniqueBytes = new ArrayList<>();
+    private CList<CByte> readUniqueBytes(BitStream stream, int uniqueAmount) {
+        CList<CByte> uniqueBytes = new CList<>();
         for (int i = 0; i < uniqueAmount; i++) {
             uniqueBytes.add(stream.readCByte());
         }
         return uniqueBytes;
     }
     
-    private void readCodes(BitStream stream, ArrayList<Entry> codes, List<CByte> uniqueBytes, int uniqueAmount) {
+    private void readCodes(BitStream stream, CList<Entry> codes, CList<CByte> uniqueBytes, int uniqueAmount) {
         int codeLength = 1;
         int uniqueIndex = 0;
         while (codes.size() < uniqueAmount) {
