@@ -173,35 +173,6 @@ public class HuffmanCompressor {
         return table.get(0);
     }
     
-    public void testSorting() {
-        Entry e1 = new Entry();
-        e1.setCByte(new CByte("00100001"));
-        e1.setFrequency(10);     
-        
-        Entry e2 = new Entry();
-        e2.setCByte(new CByte("00000010"));
-        e2.setFrequency(300);        
-        
-        Entry e3 = new Entry();
-        e3.setCByte(new CByte("00000100"));
-        e3.setFrequency(10);     
-        
-        Entry e4 = new Entry();
-        e4.setCByte(new CByte("00000011"));
-        e4.setFrequency(100);
-        
-        CList<Entry> list = new CList<>();
-        list.add(e1);
-        list.add(e2);
-        list.add(e3);
-        list.add(e4);
-        sortList(list, false);
-        for (int i = 0; i< 4; i++) {
-            Entry e = list.get(i);
-            System.out.println(e.getFrequency() + "   ,   " + e.getCByte().getValue());
-        }
-    }
-    
     /**
      * Call this with true in the codeLength parameter,
      * to sort based on codeLengths. If it's false,
@@ -236,7 +207,6 @@ public class HuffmanCompressor {
         if (codeLength) {
             return e1.getCode().length() < e2.getCode().length();
         }
-        //if (e1 == null || e2 == null) return true;
         if (e1.frequency != e2.frequency) {
             return e1.frequency <= e2.frequency;
         } else {
