@@ -2,8 +2,7 @@
 package compressionstudy.compression;
 
 import compressionstudy.util.BitStream;
-import compressionstudy.util.HashMap;
-
+import java.util.HashMap;
 /**
  * Performs Lempel-Ziv-Welch compression  on a byte[] file
  * @author Arttu Kangas
@@ -22,11 +21,17 @@ public class LZW {
         String w = "";
         for (int z = 0; z < rawInput.length; z++) {
             String c = "" + Integer.toString(stream.readNumberFromBits(8));
+            if (c.length() == 2) {
+                c = "0" + c;
+            } else if (c.length() == 1) {
+                c = "00" + c;
+            }
             String wc = w + c;
             if (dict.containsKey(wc)) {
                 w = wc;
             } else {
                 compressed.writeNumberToBits(dict.get(w), bitLength);
+                
                 dict.put(wc, dictSize);
                 dictSize++;
                 if (dictSize >= dictLimit - 1) {
@@ -43,7 +48,11 @@ public class LZW {
     private HashMap<String, Integer> createDictionary() {
         HashMap<String, Integer> dict = new HashMap<>();
         for (int i = 0; i < 256; i++) {
-            dict.put(Integer.toString(i), i);
+            String intStr = Integer.toString(i);
+            while (intStr.length() < 3) {
+                intStr = "0" + intStr;
+            }
+            dict.put(intStr, i);
         }
         return dict;
     }
@@ -110,10 +119,10 @@ public class LZW {
         return numbers[0];
     }
     
-    public void writeNumbers(BitStream decompressed, String entry) {
+    public void writeNumbers(BitStream stream, String entry) {
         String[] numbers = entry.split("_");
         for (String number : numbers) {
-            decompressed.writeNumber(Integer.parseInt(number), 1);
+            stream.writeNumber(Integer.parseInt(number), 1);
         }
         
     }

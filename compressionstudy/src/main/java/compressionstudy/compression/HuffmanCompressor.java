@@ -27,7 +27,7 @@ public class HuffmanCompressor {
         CList<Entry> codes = new CList<>();
         createCodes(root, "", codes);
         // Sort codes by their length
-        sortCodeTable(codes);
+        sortList(codes, true);
         // create dictionary of bytes and their codes
         HashMap<String, String> dict = createDictionary(codes);
         int[] lengthAmounts = new int[codes.get(codes.size() - 1).getCode().length() + 1];
@@ -38,6 +38,7 @@ public class HuffmanCompressor {
         stream.writeNumber(input.length, 4);
         // add how many unique bytes there are (two bytes)
         stream.writeNumber(codes.size(), 2);
+
         // add all unique bytes
         writeUniqueBytes(codes, stream, lengthAmounts);
         // For each code length, write how many of them exists, and then all the codes of that length
@@ -56,15 +57,7 @@ public class HuffmanCompressor {
         return dict;
     }
     
-    private void sortCodeTable(CList<Entry> codes) {
-        // Sort codes-table by their code length and get the longest code length
-        /**Collections.sort(codes, (Entry e1, Entry e2) -> {
-            return e1.getCode().length() - e2.getCode().length();
-        });**/
-        sortList(codes, true);
-        
-    }
-    
+
     private void countLengthAmounts(CList<Entry> codes, int[] lengthAmounts) {
         for (int i = 0; i < codes.size(); i++) {
             String code = codes.get(i).getCode();
@@ -85,7 +78,7 @@ public class HuffmanCompressor {
     
     private void writeCodeData(CList<Entry> codes, BitStream stream, int[] lengthAmounts) {
         // add data about codes
-        for (int i = 2; i < lengthAmounts.length; i++) {
+        for (int i = 1; i < lengthAmounts.length; i++) {
             // how many of this code length exists
             stream.writeNumber(lengthAmounts[i], 1);
 
@@ -209,6 +202,14 @@ public class HuffmanCompressor {
         }
     }
     
+    /**
+     * Call this with true in the codeLength parameter,
+     * to sort based on codeLengths. If it's false,
+     * sorting will happen primarily by frequencies and
+     * secondarily by CByte values.
+     * @param list
+     * @param codeLength 
+     */
     private void sortList(CList<Entry> list, boolean codeLength) {
         quickSort(list, 0, list.size()-1, codeLength);
     }
@@ -235,9 +236,9 @@ public class HuffmanCompressor {
         if (codeLength) {
             return e1.getCode().length() < e2.getCode().length();
         }
-        if (e1 == null || e2 == null) return true;
+        //if (e1 == null || e2 == null) return true;
         if (e1.frequency != e2.frequency) {
-            return e1.frequency < e2.frequency;
+            return e1.frequency <= e2.frequency;
         } else {
             if (e1.getCByte() == null || e2.getCByte() == null) {
                 return true;

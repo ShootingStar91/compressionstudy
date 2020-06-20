@@ -12,12 +12,13 @@ I found an error from my LZW algorithm, and it seems to not be related to my Has
 
 It is strange that the entire book was otherwise exactly the same but two adjacent bytes went slightly wrong. This only caused one character error in the text file, and the rest of the book was completely fine, but obviously a lossless algorithm can't have mistakes like that.
 
+UPDATE: LZW error is now fixed.
+
 ### What next
 
 Next week is the final week and I have lots of things left to do, but I am confident that I can do them in time, because I have 7 days free with no other obligations.
 
 In this order:
-+ Fixing the LZW-error
 + Unit tests for all classes
 + Integration tests for both algorithms
 + Performance tests

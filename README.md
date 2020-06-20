@@ -16,7 +16,7 @@ This project is a practice project by Arttu Kangas for a course at University of
 
 ### How to use it
 
-At this moment, running the program will read the "alice29.txt" -file from the folder where the src-folder is located. It will compress the file into "compressedAlice". Then it will decompress that into "decodedAlice.txt". These filenames can only be changed by changing the code in the main-method currently. The program will also print how many percents the compressed file is from the original.
+At this moment, main-classes main-method has some test methods that can simply be decommended and they can be ran.
 
 ### Command line
 

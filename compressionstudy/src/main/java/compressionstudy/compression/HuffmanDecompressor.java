@@ -117,13 +117,12 @@ public class HuffmanDecompressor {
     }
     
     private void readCodes(BitStream stream, CList<Entry> codes, CList<CByte> uniqueBytes, int uniqueAmount) {
-        int codeLength = 1;
+        int codeLength = 0;
         int uniqueIndex = 0;
         while (codes.size() < uniqueAmount) {
             codeLength++;
             // how many of this length codes are there
             int lengthAmount = stream.readNumber(1);
-            
             for (int i = 0; i < lengthAmount; i++) {
                 String newCode = "";
                 for (int j = 0; j < codeLength; j++) {

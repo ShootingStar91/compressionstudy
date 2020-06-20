@@ -23,7 +23,7 @@ public class Main {
     
     public static void LZWFileTest() {
         Dao dao = new Dao("alice29.txt");
-        byte[] original = dao.getContent();
+        byte[] original =  dao.getContent();
 
         LZW lzw = new LZW();
         byte[] compressed = lzw.compress(original);
@@ -131,9 +131,10 @@ public class Main {
     public static void runHuffman(String fileName, String compressedFileName) {
         System.out.println("Compressing " + fileName + "...");
         Dao dao = new Dao(fileName);
-        int sizeBefore = dao.getContent().length;
+        byte[] orig = dao.getContent();
+        int sizeBefore = orig.length;
         HuffmanCompressor hc = new HuffmanCompressor();
-        byte[] encodedFile = hc.encode(dao.getContent());
+        byte[] encodedFile = hc.encode(orig);
         int sizeAfter = encodedFile.length;
         double compressionRate = sizeAfter * 1.00 / sizeBefore * 100;
         String percentString = Double.toString(compressionRate).substring(0, 5);
@@ -142,7 +143,8 @@ public class Main {
         System.out.println("Compression percentage: " + percentString + " %");
         System.out.println("");
         dao.write(compressedFileName, encodedFile);
-        
+
+
     }
     
     public static void decompress(String fileName, String newFileName) {
