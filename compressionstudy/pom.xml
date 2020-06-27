@@ -46,6 +46,12 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>compressionstudy/main/Main.*</exclude>
+                        <exclude>compressionstudy/userinterface/UI.*</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>

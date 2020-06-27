@@ -64,7 +64,7 @@ public class LZWTest {
     @Test
     public void testLZWlong() {
         LZW lzw = new LZW();
-        Dao dao = new Dao("alice29.txt");
+        Dao dao = new Dao("Test material/testfile_1_5mb");
         byte[] content = dao.getContent();
         byte[] compressed = lzw.compress(content);
         byte[] decompressed = lzw.decompress(compressed);

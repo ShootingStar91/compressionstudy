@@ -6,6 +6,10 @@ Unit tests are created for most of the methods of the code, both utility classes
 
 Entry-class does not need tests, as it contains only of simple getters and setters. Code for user interface or main-method also do not require testing.
 
+Test coverage is good, only some errors which should not happen, and couple automatically generated getters and setters were out of the coverage.
+
+![Test coverage](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/testcov.png)
+
 
 ## Performance testing
 
@@ -86,7 +90,7 @@ Compression ratios for the extra files:
 | testDrawing.bmp (307 kb)| Huffman coding         | 20.11 %             |
 | testDrawing.bmp (307 kb)| Lempel-Ziv-Welch       | 3.984 %             |
 
-These results show the difference in the algorithms very well. In natural language of Alice in Wonderland, Lempel-Ziv-Welch is more effective. However, when compressing a file with random data, there is no repeating patterns for LZW to find, and thus it fails to compress the file at all, whereas Huffman Coding gets the file to 75.12%, since it's more interested in individual characters and their frequencies.
+These results show the difference in the algorithms very well. In natural language of Alice in Wonderland, Lempel-Ziv-Welch is more effective. However, when compressing a file with random data, there is no repeating patterns for LZW to find, and thus it fails to compress the file at all, whereas Huffman Coding gets the file to 75.12%, since it's more interested in individual bytes and their frequencies.
 
 The bitmap file achieves great compression ratios from both algorithms, LZW manages to get it to less than 4% from the original size, which is impressive. The file is very simple drawing with some brush strokes and only a couple different colours. If the file had a lot more colours and varying shapes, the compression would certainly be lower.
 

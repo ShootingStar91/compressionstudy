@@ -49,32 +49,6 @@ public final class CByte {
     }
     
     /**
-     * Adds the given bit value to the first spot which is not written to yet
-     * @param newBit New bit value
-     * @return False if all the bits have been written to before and
-     * nothing was written
-     */
-    public boolean append(int newBit) {
-        if (usedBits >= 8) {
-            return false;
-        }
-        bits[usedBits] = (short) newBit;
-        usedBits++;
-        return true;
-    }
-    
-    /**
-     * Increments the value of this byte by one
-     */
-    public void increment() {
-        setValue(getValue() + 1);
-    }
-    
-    public int getUsedBits() {
-        return usedBits;
-    }
- 
-    /**
      * Sets the value of this byte to given integer value
      * @param value Value in range 0-255
      */

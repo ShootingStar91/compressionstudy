@@ -92,6 +92,11 @@ public class UI extends Application {
                 runComparison();
             }
         });
+        Button clearButton = new Button("Clear text");
+        gridPane.add(clearButton, 2, 12);
+        clearButton.setOnAction(e ->{
+            resultLabel.setText("");
+        });
         gridPane.add(testMode, 0, 3);
         gridPane.add(fileMode, 0, 4);
         gridPane.add(lzwTestMode, 0, 5);

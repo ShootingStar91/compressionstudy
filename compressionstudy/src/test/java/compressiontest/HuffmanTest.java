@@ -1,6 +1,6 @@
 package compressiontest;
 
-import compressionstudy.compression.Entry;
+import compressionstudy.util.Entry;
 import compressionstudy.compression.HuffmanCompressor;
 import compressionstudy.compression.HuffmanDecompressor;
 import compressionstudy.dao.Dao;
@@ -65,7 +65,7 @@ public class HuffmanTest {
     
     @Test
     public void testHuffmanLong() {
-        Dao dao = new Dao("alice29.txt");
+        Dao dao = new Dao("Test material/testfile_1_5mb");
         byte[] testMaterial = dao.getContent();
         HuffmanCompressor compressor = new HuffmanCompressor();
         byte[] compressed = compressor.encode(testMaterial);

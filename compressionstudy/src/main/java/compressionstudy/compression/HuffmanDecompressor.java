@@ -1,6 +1,7 @@
 
 package compressionstudy.compression;
 
+import compressionstudy.util.Entry;
 import compressionstudy.util.BitStream;
 import compressionstudy.util.CByte;
 import compressionstudy.util.CList;
@@ -43,16 +44,10 @@ public class HuffmanDecompressor {
         Entry node = root;
         while (stream.hasBit()) {
             int bit = stream.readBit();
-            if (bit == -1) {
-                break;
-            }
             if (bit == 1) {
                 node = node.getRightChild();
             } else {
                 node = node.getLeftChild();
-            }
-            if (node == null) {
-                break;
             }
             if (node.leaf()) {
                 CByte cByte = node.getCByte();
@@ -82,9 +77,9 @@ public class HuffmanDecompressor {
         return root;
     }
     
-    /*
-    Read the code and take steps in the tree, creating new branches/leafs
-    when necessary
+    /**
+    * Read the code and take steps in the tree, creating new branches/leafs
+    * when necessary
     */
     public Entry processCode(String code, Entry node) {
         for (int i = 0; i < code.length(); i++) {
@@ -107,6 +102,7 @@ public class HuffmanDecompressor {
         }
         return node;
     }
+
     
     public CList<CByte> readUniqueBytes(BitStream stream, int uniqueAmount) {
         CList<CByte> uniqueBytes = new CList<>();

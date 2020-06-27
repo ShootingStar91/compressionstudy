@@ -49,11 +49,7 @@ public class CList<Type> {
     }
     
     private void cut() {
-        if (size < 2000) {
-            size = items + 100;
-        } else {
-            size = items + 500;
-        }
+        size = items + 1000;
         renew();
     }
     
@@ -67,26 +63,19 @@ public class CList<Type> {
     }
     
     public void remove(int index) {
-        if (index >= items || index < 0) {
-            System.out.println("List class: Remove error: Index out of bounds");
-        }
         list[index] = null;
         items--;
         for (int i = index; i < items; i++) {
             list[i] = list[i + 1];
         }
         
-        if (size - items > 1000) {
+        if (size - items > 20000) {
             cut();
         }
     }
     
     public int size() {
         return items;
-    }
-    
-    public boolean isEmpty() {
-        return size == 0;
     }
 
 }

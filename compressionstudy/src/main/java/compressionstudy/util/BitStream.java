@@ -36,7 +36,7 @@ public class BitStream {
      */
     public void setBytes(byte[] bytes) {
         for (int i = 0; i < bytes.length; i++) {
-            short value = (short)bytes[i];
+            short value = (short) bytes[i];
             if (value < 0) {
                 value += 256;
             }
@@ -59,10 +59,6 @@ public class BitStream {
      * @return The bit read
      */
     public int readBit() {
-        int index = pointer / 8;
-        if (index >= stream.size()) {
-            return -1;
-        }
         int bit = stream.get(pointer / 8).getBit(pointer % 8);
         pointer++;
         return bit;
@@ -159,11 +155,7 @@ public class BitStream {
         String numString = "";
         for (int i = 0; i < bits; i++) {
             int bit = readBit();
-            if (bit == -1) break;
             numString += Integer.toString(bit);
-        }
-        if (numString.equals("")) {
-            return 0;
         }
         int number = Integer.parseInt(numString, 2);
         return number;
@@ -180,7 +172,7 @@ public class BitStream {
             if (value > 127) {
                 value -= 256;
             }
-            arr[i] = (byte)value;
+            arr[i] = (byte) value;
         }
         return arr;
     }

@@ -44,7 +44,7 @@ public class DaoTest {
 
     @Test
     public void testDaoRead() {
-        Dao dao = new Dao("random.txt");
+        Dao dao = new Dao("Test material/random.txt");
         byte[] file = dao.getContent();
         String string = "";
         for (int i = 0; i < 5; i++) {
@@ -55,7 +55,7 @@ public class DaoTest {
     
     @Test
     public void testDaoWrite() {
-        Dao writeDao = new Dao("random.txt");
+        Dao writeDao = new Dao("Test material/random.txt");
         writeDao.write("testFile.txt", "testText123".getBytes());
         Dao dao = new Dao("testFile.txt");
         byte[] file = dao.getContent();

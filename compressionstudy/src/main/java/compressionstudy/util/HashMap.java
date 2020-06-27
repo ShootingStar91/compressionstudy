@@ -5,11 +5,11 @@ package compressionstudy.util;
  *
  * @author Arttu Kangas
  */
-public class HashMap<KEYTYPE, VALUETYPE> {
+public class HashMap<KeyType, ValueType> {
     
     int maxSize = 65536;
     CList<Item> content;
-    CList<KEYTYPE> keys;
+    CList<KeyType> keys;
     int items;
     
     public HashMap() {
@@ -21,11 +21,11 @@ public class HashMap<KEYTYPE, VALUETYPE> {
     }
 
     private class Item {
-        KEYTYPE key;
-        VALUETYPE value;
+        KeyType key;
+        ValueType value;
         Item next;
         
-        public Item(KEYTYPE key, VALUETYPE value, Item next) {
+        public Item(KeyType key, ValueType value, Item next) {
             this.key = key;
             this.value = value;
             this.next = next;
@@ -36,15 +36,15 @@ public class HashMap<KEYTYPE, VALUETYPE> {
         public Item getNext() {
             return next;
         }
-        public KEYTYPE getKey() {
+        public KeyType getKey() {
             return key;
         }
-        public VALUETYPE getValue() {
+        public ValueType getValue() {
             return value;
         }
     }
     
-    public void put(KEYTYPE key, VALUETYPE value) {
+    public void put(KeyType key, ValueType value) {
         Item item = new Item(key, value, null);
         int index = getIndex(getHash(key));
         Item oldItem = content.get(index);
@@ -70,7 +70,7 @@ public class HashMap<KEYTYPE, VALUETYPE> {
         }
     }
     
-    public VALUETYPE get(KEYTYPE key) {
+    public ValueType get(KeyType key) {
         Item item = content.get(getIndex(getHash(key)));
         if (item == null) {
             return null;
@@ -90,11 +90,11 @@ public class HashMap<KEYTYPE, VALUETYPE> {
         return h & (maxSize - 1);
     }
     
-    private int getHash(KEYTYPE key) {
+    private int getHash(KeyType key) {
         return key.hashCode();
     }
     
-    public boolean containsKey(KEYTYPE key) {
+    public boolean containsKey(KeyType key) {
         Item item = content.get(getIndex(getHash(key)));
         if (item == null) {
             return false;
@@ -110,7 +110,7 @@ public class HashMap<KEYTYPE, VALUETYPE> {
         }
     }
     
-    public CList<KEYTYPE> keySet() {
+    public CList<KeyType> keySet() {
         return keys;
     }
     

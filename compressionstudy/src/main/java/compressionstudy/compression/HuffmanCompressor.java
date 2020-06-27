@@ -2,6 +2,7 @@
 package compressionstudy.compression;
 
 
+import compressionstudy.util.Entry;
 import compressionstudy.util.BitStream;
 import compressionstudy.util.CByte;
 import compressionstudy.util.CList;
@@ -181,7 +182,7 @@ public class HuffmanCompressor {
      * @param codeLength 
      */
     public void sortList(CList<Entry> list, boolean codeLength) {
-        quickSort(list, 0, list.size()-1, codeLength);
+        quickSort(list, 0, list.size() - 1, codeLength);
     }
     
     private int part(CList<Entry> list, int low, int high, boolean codeLength) {
@@ -206,8 +207,8 @@ public class HuffmanCompressor {
         if (codeLength) {
             return e1.getCode().length() < e2.getCode().length();
         }
-        if (e1.frequency != e2.frequency) {
-            return e1.frequency <= e2.frequency;
+        if (e1.getFrequency() != e2.getFrequency()) {
+            return e1.getFrequency() <= e2.getFrequency();
         } else {
             if (e1.getCByte() == null || e2.getCByte() == null) {
                 return true;

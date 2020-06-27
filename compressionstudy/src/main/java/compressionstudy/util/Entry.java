@@ -1,5 +1,5 @@
 
-package compressionstudy.compression;
+package compressionstudy.util;
 
 import compressionstudy.util.CByte;
 
