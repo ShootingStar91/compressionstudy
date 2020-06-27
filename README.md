@@ -22,7 +22,9 @@ Run the program by either compiling it or creating jar with "mvn package" and ru
 
 The user interface allows you to choose any file. I recommend one from the Test Material folder provided with the project.
 
-To test the validity of compression and decompression, choose test and click Run. To do it on an actual file which will leave the compressed and decompressed files for you to examine, choose File.
+To test the validity of compression and decompression, choose test and click Run. If there is no error messages, but only text "Test ready", it was successful.
+
+To leave the compressed and decompressed files for you to examine, choose File.
 
 To run performance tests click the last radio button and click Run. Depending on the file size and your computer, the testing might take anywhere from couple seconds to several minutes (for the 1.5MB test files that is most expected).
 

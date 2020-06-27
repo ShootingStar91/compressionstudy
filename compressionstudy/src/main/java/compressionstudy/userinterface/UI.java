@@ -116,7 +116,7 @@ public class UI extends Application {
         long compressedLength = compressedFile.length;
         byte[] decompressedFile = lzw.decompress(compressedFile);
         checkSimilarity(originalFile, decompressedFile);
-        double compressionRate = compressedLength * 1.00 / originalLength * 100;
+        addText("LZW test ready");
     }
     
     private void runLZW() {
@@ -126,6 +126,7 @@ public class UI extends Application {
         dao.write("compressed_" + file.getName(), compressedFile);
         byte[] decompressedFile = lzw.decompress(compressedFile);
         dao.write("decompressed_" + file.getName(), decompressedFile);
+        addText("Files created");
     }
 
     /**
@@ -194,6 +195,7 @@ public class UI extends Application {
         HuffmanDecompressor decompressor = new HuffmanDecompressor();
         byte[] decompressedFile = decompressor.decompress(compressedFile);
         dao.write("decompressed_" + file.getName(), decompressedFile);
+        addText("Files created.");
     }
     
     private void testHuffman() {
@@ -205,7 +207,7 @@ public class UI extends Application {
         HuffmanDecompressor decompressor = new HuffmanDecompressor();
         byte[] decompressedFile = decompressor.decompress(compressedFile);
         checkSimilarity(originalFile, decompressedFile);
-        double compressionRate = compressedLength * 1.00 / originalLength * 100;        
+        addText("Huffman test ready");
     }
     
     private void checkSimilarity(byte[] original, byte[] decompressed) {
