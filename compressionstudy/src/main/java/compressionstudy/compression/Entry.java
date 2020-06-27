@@ -82,12 +82,4 @@ public class Entry {
     public void setFrequency(Integer frequency) {
         this.frequency = frequency;
     }
-
-    @Override
-    public String toString() {
-        if (frequency == null) {
-            return "(" + this.character + " " + code + ")";
-        }
-        return "(" + this.character + " " + this.frequency + " " + " " + code + ")";
-    }
 }

@@ -42,7 +42,7 @@ public final class CByte {
     /**
      * Sets the bit at given index
      * @param index Index to be changed
-     * @param newBit New bit value
+     * @param newBit New bit value, 0 or 1
      */
     public void setBit(int index, int newBit) {
         bits[index] = (short) newBit;

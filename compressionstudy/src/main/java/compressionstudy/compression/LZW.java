@@ -2,15 +2,16 @@
 package compressionstudy.compression;
 
 import compressionstudy.util.BitStream;
-import java.util.HashMap;
+import compressionstudy.util.HashMap;
+
 /**
  * Performs Lempel-Ziv-Welch compression  on a byte[] file
  * @author Arttu Kangas
  */
 public class LZW {
-    int dictLimit = 4096;
+    int dictLimit = 65536;
     public byte[] compress(byte[] rawInput) {
-        int bitLength = 12;
+        int bitLength = 16;
         BitStream stream = new BitStream();
         stream.setBytes(rawInput);
         int dictSize = 256;
@@ -31,7 +32,6 @@ public class LZW {
                 w = wc;
             } else {
                 compressed.writeNumberToBits(dict.get(w), bitLength);
-                
                 dict.put(wc, dictSize);
                 dictSize++;
                 if (dictSize >= dictLimit - 1) {
@@ -45,7 +45,7 @@ public class LZW {
         return compressed.getByteArray();
     }
     
-    private HashMap<String, Integer> createDictionary() {
+    public HashMap<String, Integer> createDictionary() {
         HashMap<String, Integer> dict = new HashMap<>();
         for (int i = 0; i < 256; i++) {
             String intStr = Integer.toString(i);
@@ -56,7 +56,7 @@ public class LZW {
         }
         return dict;
     }
-        private HashMap<Integer, String> createDictionary2() {
+    public HashMap<Integer, String> createDictionary2() {
         HashMap<Integer, String> dict = new HashMap<>();
         for (int i = 0; i < 256; i++) {
             dict.put(i, Integer.toString(i));
@@ -71,7 +71,7 @@ public class LZW {
      * @return byte[] array containing decompressed file
      */
     public byte[] decompress(byte[] rawInput) {
-        int bitLength = 12;
+        int bitLength = 16;
         int dictSize = 256;
         BitStream stream = new BitStream();
         stream.setBytes(rawInput);
@@ -81,20 +81,15 @@ public class LZW {
         
         String w = Integer.toString(stream.readNumberFromBits(bitLength));
         decompressed.writeNumber(Integer.parseInt(w), 1);
-        for (int z = 0; z < rawInput.length; z++) {
+        for (int i = 0; i < rawInput.length; i++) {
             int a = stream.readNumberFromBits(bitLength);
             String entry = "";
             if (dict.containsKey(a)) {
-             //   System.out.println("contained a ");
                 entry = dict.get(a);
             } else if (a == dictSize) {
-             //   System.out.println("didnt contain");
                 entry = w + "_" + pickFirst(w);
             } else {
-                System.out.println("ERROR");
-            }
-            if (entry.equals("")) {
-                continue;
+                throw new IllegalArgumentException();
             }
             writeNumbers(decompressed, entry);
             if (decompressed.getPointer() >= fileSize * 8 - 1) {

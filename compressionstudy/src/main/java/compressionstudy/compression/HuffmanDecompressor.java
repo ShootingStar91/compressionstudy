@@ -68,7 +68,7 @@ public class HuffmanDecompressor {
     /*
     Create tree out of the codes
     */
-    private Entry createTree(CList<Entry> codes) {
+    public Entry createTree(CList<Entry> codes) {
         Entry root = new Entry();
         Entry node = root;
         for (int i = 0; i < codes.size(); i++) {
@@ -86,7 +86,7 @@ public class HuffmanDecompressor {
     Read the code and take steps in the tree, creating new branches/leafs
     when necessary
     */
-    private Entry processCode(String code, Entry node) {
+    public Entry processCode(String code, Entry node) {
         for (int i = 0; i < code.length(); i++) {
             Entry newNode = new Entry();
             if (code.charAt(i) == '0') {
@@ -108,7 +108,7 @@ public class HuffmanDecompressor {
         return node;
     }
     
-    private CList<CByte> readUniqueBytes(BitStream stream, int uniqueAmount) {
+    public CList<CByte> readUniqueBytes(BitStream stream, int uniqueAmount) {
         CList<CByte> uniqueBytes = new CList<>();
         for (int i = 0; i < uniqueAmount; i++) {
             uniqueBytes.add(stream.readCByte());

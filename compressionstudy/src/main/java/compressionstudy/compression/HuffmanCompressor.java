@@ -38,7 +38,6 @@ public class HuffmanCompressor {
         stream.writeNumber(input.length, 4);
         // add how many unique bytes there are (two bytes)
         stream.writeNumber(codes.size(), 2);
-
         // add all unique bytes
         writeUniqueBytes(codes, stream, lengthAmounts);
         // For each code length, write how many of them exists, and then all the codes of that length
@@ -48,7 +47,7 @@ public class HuffmanCompressor {
         return stream.getByteArray();
     }
     
-    private HashMap<String, String> createDictionary(CList<Entry> codes) {
+    public HashMap<String, String> createDictionary(CList<Entry> codes) {
         HashMap<String, String> dict = new HashMap<>();
         for (int i = 0; i < codes.size(); i++) {
             Entry entry = codes.get(i);
@@ -58,7 +57,7 @@ public class HuffmanCompressor {
     }
     
 
-    private void countLengthAmounts(CList<Entry> codes, int[] lengthAmounts) {
+    public void countLengthAmounts(CList<Entry> codes, int[] lengthAmounts) {
         for (int i = 0; i < codes.size(); i++) {
             String code = codes.get(i).getCode();
             int bits = code.length();
@@ -100,7 +99,7 @@ public class HuffmanCompressor {
         }
     }
 
-    private CByte[] process(byte[] rawinput) {
+    public CByte[] process(byte[] rawinput) {
         CByte[] result = new CByte[rawinput.length];
         for (int i = 0; i < rawinput.length; i++) {
             short value = (short) rawinput[i];
@@ -117,7 +116,7 @@ public class HuffmanCompressor {
     Goes through all bytes in the file, counting how often they appear, and
     returns a list of them which is sorted by the frequencies
     */
-    private CList<Entry> createTable(CByte[] input) {
+    public CList<Entry> createTable(CByte[] input) {
         HashMap<String, Integer> frequencies = new HashMap<>();
         for (CByte newByte : input) {
             if (frequencies.containsKey(newByte.toString())) {
@@ -135,7 +134,7 @@ public class HuffmanCompressor {
         return table;
     }
 
-    private void createCodes(Entry node, String code, CList<Entry> codes) {
+    public void createCodes(Entry node, String code, CList<Entry> codes) {
         if (node.getLeftChild() != null) {
             createCodes(node.getLeftChild(), code + "0", codes);
         }
@@ -152,7 +151,7 @@ public class HuffmanCompressor {
         codes.add(node);
     }
     
-    private Entry createTree(CList<Entry> table) {
+    public Entry createTree(CList<Entry> table) {
         while (table.size() > 1) {
             Entry e1 = table.get(0);
             Entry e2 = table.get(1);
@@ -181,7 +180,7 @@ public class HuffmanCompressor {
      * @param list
      * @param codeLength 
      */
-    private void sortList(CList<Entry> list, boolean codeLength) {
+    public void sortList(CList<Entry> list, boolean codeLength) {
         quickSort(list, 0, list.size()-1, codeLength);
     }
     

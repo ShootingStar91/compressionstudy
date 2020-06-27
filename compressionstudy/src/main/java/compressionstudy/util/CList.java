@@ -10,19 +10,19 @@ public class CList<Type> {
     
     int size;
     int items;
-    Type [] list;
+    Object [] list;
     
     public CList() {
         items = 0;
-        size = 20000;
-        list = (Type[]) new Object[size];
+        size = 100000;
+        list = new Object[size];
     }
     
     public Type get(int index) {
         if (index >= items) {
             throw new NullPointerException();
         }
-        return list[index];
+        return (Type) list[index];
     }
 
     public void add(Type item) {
@@ -35,13 +35,13 @@ public class CList<Type> {
     }
     
     private void extend() {
-        int growth = 10000;
+        int growth = 100000;
         size += growth;
         renew();
     }
     
     private void renew() {
-        Type [] newlist = (Type[]) new Object[size];
+        Object [] newlist = new Object[size];
         for (int i = 0; i < items; i++) {
             newlist[i] = list[i];
         }
