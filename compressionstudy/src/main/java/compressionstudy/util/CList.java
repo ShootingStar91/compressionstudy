@@ -2,7 +2,7 @@
 package compressionstudy.util;
 
 /**
- *
+ * Custom List implementation, basically same as Java's ArrayList
  * @author Arttu Kangas
  * @param <Type>
  */

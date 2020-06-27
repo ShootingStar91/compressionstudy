@@ -8,6 +8,8 @@ This project is a practice project by Arttu Kangas for a course at University of
 + [Implementation document](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/implementation.md)
 + [Testing document](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/testing.md)
 + [Test material folder](https://github.com/ShootingStar91/compressionstudy/blob/master/compressionstudy/Test%20material/)
+
+Week reports:
 + [Week report 1](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport1.md)
 + [Week report 2](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport2.md)
 + [Week report 3](https://github.com/ShootingStar91/compressionstudy/blob/master/documentation/weekreport3.md)
@@ -40,10 +42,13 @@ mvn test jacoco:report
 
 You will find it from /target/site/jacoco/
 
-Create checkstyle report:
+Create checkstyle report to /target/site/checkstyle.html
 ```
 mvn jxr:jxr checkstyle:checkstyle
 ```
 
-Find it at /target/site/checkstyle.html
+Create javadocs to /target/site/apidocs/:
+```
+mvn javadoc:javadoc
+```
 
