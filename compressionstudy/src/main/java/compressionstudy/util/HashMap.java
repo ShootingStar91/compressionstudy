@@ -2,7 +2,9 @@
 package compressionstudy.util;
 
 /**
- *
+ * HashMap-implementation, very similar to Java's own
+ * @param KeyType Type of key
+ * @param ValueType Type of Value
  * @author Arttu Kangas
  */
 public class HashMap<KeyType, ValueType> {
@@ -20,6 +22,9 @@ public class HashMap<KeyType, ValueType> {
         keys = new CList<>();
     }
 
+    /**
+     * Internal class for each key-value pair
+     */
     private class Item {
         KeyType key;
         ValueType value;
@@ -44,6 +49,11 @@ public class HashMap<KeyType, ValueType> {
         }
     }
     
+    /**
+     * Put a key-value pair into the hashMap
+     * @param key
+     * @param value 
+     */
     public void put(KeyType key, ValueType value) {
         Item item = new Item(key, value, null);
         int index = getIndex(getHash(key));
@@ -70,6 +80,11 @@ public class HashMap<KeyType, ValueType> {
         }
     }
     
+    /**
+     * Get the value corresponding to given key
+     * @param key Key whose value you want to find
+     * @return value of key
+     */
     public ValueType get(KeyType key) {
         Item item = content.get(getIndex(getHash(key)));
         if (item == null) {
@@ -94,6 +109,11 @@ public class HashMap<KeyType, ValueType> {
         return key.hashCode();
     }
     
+    /**
+     * Returns true if key exists in the hashmap, false if does not
+     * @param key Key to look for
+     * @return True if was found, false if not
+     */
     public boolean containsKey(KeyType key) {
         Item item = content.get(getIndex(getHash(key)));
         if (item == null) {

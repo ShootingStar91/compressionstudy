@@ -18,6 +18,11 @@ public class CList<Type> {
         list = new Object[size];
     }
     
+    /**
+     * Get item from index
+     * @param index Index to get item from
+     * @return Item at index
+     */
     public Type get(int index) {
         if (index >= items) {
             throw new NullPointerException();
@@ -25,6 +30,10 @@ public class CList<Type> {
         return (Type) list[index];
     }
 
+    /**
+     * Add item to end of list
+     * @param item Item to add
+     */
     public void add(Type item) {
         if (items == size) {
             extend();
@@ -62,6 +71,10 @@ public class CList<Type> {
         list[index] = object;
     }
     
+    /**
+     * Removes the item from index and puts the remaining list together
+     * @param index Index where item to be removed is
+     */
     public void remove(int index) {
         list[index] = null;
         items--;

@@ -1,8 +1,6 @@
 
 package compressionstudy.util;
 
-import compressionstudy.util.CByte;
-
 /**
  * Represents an entry in the Huffman Coding table and tree.
  * Used in both compression and decompression.

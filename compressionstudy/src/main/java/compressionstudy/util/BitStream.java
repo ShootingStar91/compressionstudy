@@ -1,8 +1,6 @@
 
 package compressionstudy.util;
 
-import java.util.List;
-
 /**
  * Provides utility for reading and writing bits across multiple CBytes.
  * Used when you need to consider individual bits or non-full bytes.

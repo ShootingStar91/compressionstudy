@@ -40,6 +40,13 @@ public class HuffmanDecompressor {
         return decodedStream.getByteArray();
     }
     
+    /**
+     * Decodes the file with the given codes
+     * @param stream stream to read from
+     * @param root Root node of the Huffman Tree
+     * @param decodedBytes This will be the result
+     * @param fileSize The size of original file in bytes
+     */
     private void decode(BitStream stream, Entry root, CList<CByte> decodedBytes, int fileSize) {
         Entry node = root;
         while (stream.hasBit()) {
@@ -60,9 +67,11 @@ public class HuffmanDecompressor {
         }
     }
     
-    /*
-    Create tree out of the codes
-    */
+    /**
+     * Reconstruct Huffman tree
+     * @param codes Contains codes and their corresponding bytes
+     * @return Root node of the constructed tree
+     */
     public Entry createTree(CList<Entry> codes) {
         Entry root = new Entry();
         Entry node = root;
@@ -80,6 +89,8 @@ public class HuffmanDecompressor {
     /**
     * Read the code and take steps in the tree, creating new branches/leafs
     * when necessary
+    * @param code Code to process
+    * @param node root node
     */
     public Entry processCode(String code, Entry node) {
         for (int i = 0; i < code.length(); i++) {
@@ -103,7 +114,12 @@ public class HuffmanDecompressor {
         return node;
     }
 
-    
+    /**
+     * Reads all unique bytes from the stream
+     * @param stream stream to read from
+     * @param uniqueAmount How many uniques
+     * @return Unique bytes in a CList of CBytes
+     */
     public CList<CByte> readUniqueBytes(BitStream stream, int uniqueAmount) {
         CList<CByte> uniqueBytes = new CList<>();
         for (int i = 0; i < uniqueAmount; i++) {
@@ -112,6 +128,13 @@ public class HuffmanDecompressor {
         return uniqueBytes;
     }
     
+    /**
+     * Read codes from stream
+     * @param stream stream to read from
+     * @param codes Where codes are saved
+     * @param uniqueBytes All unique bytes
+     * @param uniqueAmount How many uniques there are
+     */
     private void readCodes(BitStream stream, CList<Entry> codes, CList<CByte> uniqueBytes, int uniqueAmount) {
         int codeLength = 0;
         int uniqueIndex = 0;

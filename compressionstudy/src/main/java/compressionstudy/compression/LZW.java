@@ -5,17 +5,23 @@ import compressionstudy.util.BitStream;
 import compressionstudy.util.HashMap;
 
 /**
- * Performs Lempel-Ziv-Welch compression  on a byte[] file
+ * Performs Lempel-Ziv-Welch compression and decompression on a byte[] file
  * @author Arttu Kangas
  */
 public class LZW {
+    
     int dictLimit = 65536;
+    
+    /**
+     * Compress given file with LZW
+     * @param rawInput byte[] of the file to be compressed
+     * @return Compressed file in byte-array
+     */
     public byte[] compress(byte[] rawInput) {
         int bitLength = 16;
         BitStream stream = new BitStream();
         stream.setBytes(rawInput);
         int dictSize = 256;
-        // Initialize dictionary
         HashMap<String, Integer> dict = createDictionary();
         BitStream compressed = new BitStream();
         compressed.writeNumber(rawInput.length, 4);
@@ -45,6 +51,10 @@ public class LZW {
         return compressed.getByteArray();
     }
     
+    /**
+     * Create a dictionary for compression
+     * @return HashMap dictionary of string-keys and Integer-values
+     */
     public HashMap<String, Integer> createDictionary() {
         HashMap<String, Integer> dict = new HashMap<>();
         for (int i = 0; i < 256; i++) {
@@ -56,6 +66,11 @@ public class LZW {
         }
         return dict;
     }
+    
+    /**
+     * Create a dictionary for decompression
+     * @return HashMap dictionary of Integer, String pairs
+     */
     public HashMap<Integer, String> createDictionary2() {
         HashMap<Integer, String> dict = new HashMap<>();
         for (int i = 0; i < 256; i++) {
@@ -78,7 +93,6 @@ public class LZW {
         int fileSize = stream.readNumber(4);
         HashMap<Integer, String> dict = createDictionary2();
         BitStream decompressed = new BitStream();
-        
         String w = Integer.toString(stream.readNumberFromBits(bitLength));
         decompressed.writeNumber(Integer.parseInt(w), 1);
         for (int i = 0; i < rawInput.length; i++) {
@@ -95,7 +109,6 @@ public class LZW {
             if (decompressed.getPointer() >= fileSize * 8 - 1) {
                 break;
             }
-            
             dict.put(dictSize, "" + w + "_" + pickFirst(entry));
             dictSize++;
             if (dictSize >= dictLimit - 1) {
@@ -104,22 +117,29 @@ public class LZW {
             }
             w = entry;
         }
-        
         return decompressed.getByteArray();
-        
     }
     
+    /**
+     * Returns the first number before an underscore
+     * @param string String to pick number from
+     * @return String of a number
+     */
     public String pickFirst(String string) {
         String[] numbers = string.split("_");
         return numbers[0];
     }
     
+    /**
+     * Writes numbers split with "_" in a string, to given stream
+     * @param stream stream to write numbers into
+     * @param entry String that has numbers separated by underscore
+     */
     public void writeNumbers(BitStream stream, String entry) {
         String[] numbers = entry.split("_");
         for (String number : numbers) {
             stream.writeNumber(Integer.parseInt(number), 1);
         }
-        
     }
     
 }

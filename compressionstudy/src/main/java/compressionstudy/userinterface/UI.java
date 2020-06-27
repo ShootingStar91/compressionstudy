@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 
 /**
- *
+ * Provides user interface for the program.
  * @author Arttu Kangas
  */
 public class UI extends Application {
@@ -94,7 +94,7 @@ public class UI extends Application {
         });
         Button clearButton = new Button("Clear text");
         gridPane.add(clearButton, 2, 12);
-        clearButton.setOnAction(e ->{
+        clearButton.setOnAction(e -> {
             resultLabel.setText("");
         });
         gridPane.add(testMode, 0, 3);
@@ -117,10 +117,6 @@ public class UI extends Application {
         byte[] decompressedFile = lzw.decompress(compressedFile);
         checkSimilarity(originalFile, decompressedFile);
         double compressionRate = compressedLength * 1.00 / originalLength * 100;
-        String percentString = Double.toString(compressionRate).substring(0, 5);
-        System.out.println("Original size: " + originalLength + " bytes");
-        System.out.println("Compressed into: " + compressedFile.length + " bytes");
-        System.out.println("LZW compression rate: " + percentString + " %");
     }
     
     private void runLZW() {
@@ -132,6 +128,9 @@ public class UI extends Application {
         dao.write("decompressed_" + file.getName(), decompressedFile);
     }
 
+    /**
+     * Performance tests
+     */
     private void runComparison() {
         long comparisonStartTime = System.nanoTime();
         byte [] originalFile = dao.getContent();
@@ -150,7 +149,6 @@ public class UI extends Application {
             huffmanRatio = compressedFile.length * 1.00 / originalLength * 100;
         }
         long huffCompressionTime = times[repeats / 2] / 1000000;
-        System.out.println("1/4");
         for (int i = 0; i < repeats; i++) {
             long startTime = System.nanoTime();
             HuffmanDecompressor decompressor = new HuffmanDecompressor();
@@ -158,7 +156,6 @@ public class UI extends Application {
             times[i] = System.nanoTime() - startTime;
         }
         long huffDecompressionTime = times[repeats / 2] / 1000000;
-        System.out.println("2/4");
         for (int i = 0; i < repeats; i++) {
             long startTime = System.nanoTime();
             LZW lzw = new LZW();
@@ -168,7 +165,6 @@ public class UI extends Application {
 
         }
         long lzwCompressionTime = times[repeats / 2] / 1000000;
-        System.out.println("3/4");
         for (int i = 0; i < repeats; i++) {
             long startTime = System.nanoTime();
             LZW lzw = new LZW();
@@ -201,7 +197,6 @@ public class UI extends Application {
     }
     
     private void testHuffman() {
-
         byte[] originalFile = dao.getContent();
         long originalLength = originalFile.length;
         HuffmanCompressor compressor = new HuffmanCompressor();
@@ -210,21 +205,16 @@ public class UI extends Application {
         HuffmanDecompressor decompressor = new HuffmanDecompressor();
         byte[] decompressedFile = decompressor.decompress(compressedFile);
         checkSimilarity(originalFile, decompressedFile);
-        double compressionRate = compressedLength * 1.00 / originalLength * 100;
-        String percentString = Double.toString(compressionRate).substring(0, 5);
-        System.out.println("Original size: " + originalLength + " bytes");
-        System.out.println("Compressed into: " + compressedFile.length + " bytes");
-        System.out.println("Huffman compression rate: " + percentString + " %");
-        
+        double compressionRate = compressedLength * 1.00 / originalLength * 100;        
     }
     
     private void checkSimilarity(byte[] original, byte[] decompressed) {
         if (original.length != decompressed.length) {
-            System.out.println("ERROR: Lengths not same");
+            addText("ERROR: Lengths not same");
         }
         for (int i = 0; i < original.length; i++) {
             if (original[i] != decompressed[i]) {
-                System.out.println("ERROR: Not same at " + i);
+                addText("ERROR: Not same at " + i);
                 break;
             }
         }
@@ -234,7 +224,6 @@ public class UI extends Application {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose file to compress");
         file = fileChooser.showOpenDialog(window);
-        
     }
 
     

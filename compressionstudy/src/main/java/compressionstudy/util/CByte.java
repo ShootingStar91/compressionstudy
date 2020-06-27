@@ -21,6 +21,10 @@ public final class CByte {
         setValue(value);
     }
     
+    /**
+     * Initialize this CByte with a string containing 8 of 1's and 0's
+     * @param value String of byte, for example "00000010" for value 2
+     */
     public CByte(String value) {
         this();
         for (int i = 0; i < 8; i++) {

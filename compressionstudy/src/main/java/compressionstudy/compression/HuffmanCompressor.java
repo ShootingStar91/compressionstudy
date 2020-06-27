@@ -48,6 +48,12 @@ public class HuffmanCompressor {
         return stream.getByteArray();
     }
     
+    /**
+     * Create dictionary from codes, that has strings of unique bytes as keys,
+     * and their corresponding codes as values
+     * @param codes List of codes and their bytes
+     * @return HasMap<String, String> Dictionary of bytes and codes
+     */
     public HashMap<String, String> createDictionary(CList<Entry> codes) {
         HashMap<String, String> dict = new HashMap<>();
         for (int i = 0; i < codes.size(); i++) {
@@ -57,7 +63,11 @@ public class HuffmanCompressor {
         return dict;
     }
     
-
+    /**
+     * Calculate how many of each code length exists in the codes
+     * @param codes The previously made codes
+     * @param lengthAmounts int array that the results are put into
+     */
     public void countLengthAmounts(CList<Entry> codes, int[] lengthAmounts) {
         for (int i = 0; i < codes.size(); i++) {
             String code = codes.get(i).getCode();
@@ -66,6 +76,12 @@ public class HuffmanCompressor {
         }
     }
     
+    /**
+     * Writes all the unique bytes into the BitStream
+     * @param codes All unique bytes
+     * @param stream stream to write to
+     * @param lengthAmounts Amounts of each code length
+     */
     private void writeUniqueBytes(CList<Entry> codes, BitStream stream, int[] lengthAmounts) {
         for (int i = 0; i < lengthAmounts.length; i++) {
             for (int j = 0; j < codes.size(); j++) {
@@ -76,12 +92,16 @@ public class HuffmanCompressor {
         }
     }
     
+    /**
+     * Writes data about the codes into the stream. First writes how many
+     * numbers of the code exists, and then the actual codes. Starts from length 1
+     * @param codes Codes to write
+     * @param stream Stream to write into
+     * @param lengthAmounts Amounts of each code length
+     */
     private void writeCodeData(CList<Entry> codes, BitStream stream, int[] lengthAmounts) {
-        // add data about codes
         for (int i = 1; i < lengthAmounts.length; i++) {
-            // how many of this code length exists
             stream.writeNumber(lengthAmounts[i], 1);
-
             for (int j = 0; j < codes.size(); j++) {
                 if (codes.get(j).getCode().length() == i) {
                     stream.writeBits(codes.get(j).getCode());
@@ -90,7 +110,13 @@ public class HuffmanCompressor {
         }
     }
     
-    // Writes the original file's bytes into bitstream as huffman codes
+    /**
+     * Write the original files bytes into the stream, but as the codes created
+     * earlier into dict
+     * @param input The original file
+     * @param dict The dictionary containing bytes as keys and values as their codes
+     * @param stream Stream to write into
+     */
     private void writeCodes(CByte[] input, HashMap<String, String> dict, BitStream stream) {
         for (int i = 0; i < input.length; i++) {
             CByte cbyte = new CByte();
@@ -99,7 +125,12 @@ public class HuffmanCompressor {
             stream.writeBits(code);
         }
     }
-
+    
+    /**
+     * Creates a CByte-array out of the original byte[] input
+     * @param rawinput the original file to compress
+     * @return The original file as CByte-array
+     */
     public CByte[] process(byte[] rawinput) {
         CByte[] result = new CByte[rawinput.length];
         for (int i = 0; i < rawinput.length; i++) {
@@ -113,10 +144,12 @@ public class HuffmanCompressor {
         return result;
     }
     
-    /*
-    Goes through all bytes in the file, counting how often they appear, and
-    returns a list of them which is sorted by the frequencies
-    */
+    /**
+     * Goes through the original file to find all unique bytes, and counts
+     * their frequencies, sorts it by frequencies and byte-values
+     * @param input Original file in CByte-array
+     * @return Sorted CList of Entries that contain all unique bytes and their frequencies
+     */
     public CList<Entry> createTable(CByte[] input) {
         HashMap<String, Integer> frequencies = new HashMap<>();
         for (CByte newByte : input) {
@@ -135,6 +168,12 @@ public class HuffmanCompressor {
         return table;
     }
 
+    /**
+     * Create the codes out of the tree structure, recursively
+     * @param node Current node to check, on first call give root node
+     * @param code Current code, set empty "" on first call
+     * @param codes List of codes where the codes will be written into
+     */
     public void createCodes(Entry node, String code, CList<Entry> codes) {
         if (node.getLeftChild() != null) {
             createCodes(node.getLeftChild(), code + "0", codes);
@@ -147,11 +186,22 @@ public class HuffmanCompressor {
         }
     }
     
+    /**
+     * Save the code created into the codes-list
+     * @param node
+     * @param code
+     * @param codes 
+     */
     private void saveCode(Entry node, String code, CList<Entry> codes) {
         node.setCode(code);
         codes.add(node);
     }
     
+    /**
+     * Create the Huffman tree
+     * @param table CList containing all CBytes and their frequencies
+     * @return Root node of the tree
+     */
     public Entry createTree(CList<Entry> table) {
         while (table.size() > 1) {
             Entry e1 = table.get(0);
